@@ -1,0 +1,73 @@
+.column {
+  float: left;
+  width: 33.33%;
+  border: 2px solid;
+  padding: 8px; 
+  resize: none;
+  overflow: none;
+  height:89vh;
+}
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.title::after{
+ float:right;
+ content:url(Images/InfoDark.png);
+}
+.title:hover:after{
+ float:right;
+ content:url(Images/InfoLight.png);
+}
+.left{
+  background-color: lightcoral;
+}
+.middle{
+  background-color: lightblue;
+  overflow: auto;
+}
+.right{
+background-color: lightgreen;
+overflow: auto;
+}
+
+textarea {
+  resize:none;
+  height:100%;
+  width:100%;
+  border-radius:3px;
+  margin-bottom: 5px;
+}
+
+.delete::after{
+ float:right;
+ content:url(Images/CloseBlack.png);
+}
+.delete:hover:after{
+ float:right;
+ content:url(Images/CloseRed.png);
+}
+
+.CPT{
+border-radius:3px;
+background-color:white;
+overflow: auto;
+}
+
+.DX{
+border-radius:3px;
+background-color:white;
+overflow: auto;
+}
+
+.clear{
+float:right;
+}
+
+.hintText{
+    color: darkgrey;
+    text-align: center;
+}

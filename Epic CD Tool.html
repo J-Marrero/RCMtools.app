@@ -1,0 +1,48 @@
+<html>
+    <head>
+        <script src="Scripts.js" type="text/javascript"></script>
+        <script src=".\NCD Index.js" type="text/javascript"></script>
+        <link rel="stylesheet" href="Styles.css" type="text/css"></link>
+    </head>
+    <body>
+<div class="NavBar">
+<ul class="navbar_ul">
+  <li><a class="active navbar_li navbar_li_a" href="#home">Home</a></li>
+  <li><a href="#news" class="navbar_li navbar_li_a">News</a></li>
+  <li><a href="#contact" class="navbar_li navbar_li_a">Contact</a></li>
+  <li><a href="#about" class="navbar_li navbar_li_a">About</a></li>
+</ul>
+</div>
+<div class="workingArea">
+<div class="Tool_Area">
+        <table class="toolTable">
+            <tr>
+                <td>
+                    <textarea placeholder="Put CPT Codes Here..." onchange="get_CPTCodes(this.value)" style="margin: 0px; width: 234px; height: 114px;"></textarea>
+                </td>
+                <td>
+                    <div id="CPT_Container"><p>CPT Placeholder</p></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <textarea placeholder="Put DX Codes Here..." onchange="get_DxCodes(this.value.toUpperCase())" style="margin: 0px; height: 127px; width: 235px;"></textarea>
+                </td>
+                <td>
+                    <div id="Dx_Container"><p>DX Placeholder</p></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button class="button normal" onclick="check_cptcodes()">Test Combination</button>
+                </td>
+                <td>
+                    <button class="button important" onclick="Clear()">Clear</button>
+                </td>
+            </tr>
+        </table>
+        </div>
+        <div id="resp_target" class="Response_Container"></div>
+        </div>
+    </body>
+</html>

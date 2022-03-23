@@ -1,4 +1,4 @@
-function get_DxCodes(x){
+function get_DxCodes(x) {
 let regexp = /[A-TV-Z][0-9][0-9AB]\.?[0-9A-TV-Z]{0,4}/g;
 let matchAll = x.matchAll(regexp);
 matchAll = Array.from(matchAll);
@@ -25,7 +25,7 @@ for(var v of matchAll){
   }
 };
 
-function get_CPTCodes(x){
+function get_CPTCodes(x) {
 let regexp = /\d{4,4}[A-Z0-9]/g;
 let matchAll = x.matchAll(regexp);
 matchAll = Array.from(matchAll);
@@ -44,7 +44,7 @@ for(var v of matchAll){
   }
 }
 
-function ncd_validate(cpt,dx){
+function ncd_validate(cpt,dx) {
     for(var v of Index){
         if(v.CPT_Contents.includes(cpt) == true){
          return v.Contents.includes(dx)
@@ -52,7 +52,7 @@ function ncd_validate(cpt,dx){
         }
     }
 
-function check_cptcodes(){ 
+function check_cptcodes() { 
     var headerrow = document.getElementById("Dx_Container").innerText.split("\n");
     headerrow.unshift("")
     var result = []
@@ -66,5 +66,25 @@ function check_cptcodes(){
         result.push(row)
     }
 result.unshift(headerrow)
-console.log(result)
+arrayToTable(result)
 }
+
+function arrayToTable(x) {
+    var table_node = document.createElement('table')
+    table_node.border = 1;
+    for(var row_iterator of x){
+        var row_node = document.createElement('tr')
+        for(var cell_iterator of row_iterator){
+            var cell_node = document.createElement('td')
+            cell_node.innerText = cell_iterator
+            row_node.appendChild(cell_node)
+        }
+        table_node.appendChild(row_node)
+    }
+document.getElementById('resp_target').innerHTML = ""
+document.getElementById('resp_target').appendChild(table_node)
+}
+
+function Clear() {
+    window.location.reload()
+};
