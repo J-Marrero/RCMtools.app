@@ -56,6 +56,7 @@ function get_DxCodes(x) {
     let matchAll = x.matchAll(regexp);
     matchAll = Array.from(matchAll);
     for(var v of matchAll){
+        if(duplicateCode(v) != true){
         var resp_array = []
         fetch("http://icd10api.com/?code="+ v + "&desc=short&r=json")
         .then(response => response.json())
@@ -83,7 +84,8 @@ function get_DxCodes(x) {
           }
         })
 
-        }
+        } else {throw Error(v + " is a Duplicate Diagnosis code.")}
+    } 
 };
 
 function get_CPTCodes(x) {
@@ -117,6 +119,10 @@ get_CPTCodes(x)
 get_DxCodes(x)
 }
 
-function createTable(){
-    
+function duplicateCode(dxCode){
+    //determine if this is a duplicate code
+    var Diagnosis_Element_Array = Array.from(document.getElementsByClassName("DX_body")[0].rows)
+    var Existing_Codes = []
+    Diagnosis_Element_Array.forEach(element => Existing_Codes.push(element.childNodes[0].innerText));
+    return Existing_Codes.includes(dxCode.toUpperCase())
 }
