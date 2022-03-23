@@ -124,5 +124,5 @@ function duplicateCode(dxCode){
     var Diagnosis_Element_Array = Array.from(document.getElementsByClassName("DX_body")[0].rows)
     var Existing_Codes = []
     Diagnosis_Element_Array.forEach(element => Existing_Codes.push(element.childNodes[0].innerText));
-    return Existing_Codes.includes(dxCode.toUpperCase())
+    return Existing_Codes.includes(dxCode)
 }
