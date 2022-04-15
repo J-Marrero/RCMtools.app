@@ -151,7 +151,7 @@ function throwRandom(){
 
 function KeyPress(e) {
     var evtobj = window.event? event : e
-    if (evtobj.keyCode == 82 && evtobj.ctrlKey && evtobj.altKey) throwRandom();
+    if (evtobj.keyCode == 82 && evtobj.ctrlKey && evtobj.altKey) throwRandom(); //TODO #1
 }
 
 document.onkeydown = KeyPress;
