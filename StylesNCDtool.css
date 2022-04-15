@@ -71,3 +71,11 @@ float:right;
     color: darkgrey;
     text-align: center;
 }
+
+#Settings{
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+.SettingsContent{
+  margin: 10px;
+}
