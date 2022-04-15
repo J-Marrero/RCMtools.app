@@ -126,3 +126,32 @@ function duplicateCode(dxCode){
     Diagnosis_Element_Array.forEach(element => Existing_Codes.push(element.childNodes[0].innerText));
     return Existing_Codes.includes(dxCode)
 }
+
+function throwRandom(){
+    //Establish a container in which to put CPT and DX codes
+    var resp = new Array()
+    //Random Numbers => Math.round(Math.random()*10)
+    //Get your Dx Codes
+    for (let i = 0; i < Math.round(Math.random()*10); i++) {
+        resp.push(Index[i].Contents[Math.round(Math.random()*10)]);
+    }
+    //Get your CPT Codes
+    for (let i = 0; i < Math.round(Math.random()*10); i++) {
+        if(Index[i].CPT_Contents.length > 1){
+            var randombtwn = Math.floor(Math.random() * (Index[i].CPT_Contents.length - 0 + 1) + 0) 
+            resp.push(Index[i].CPT_Contents[randombtwn]);
+        } else {
+            resp.push(Index[i].CPT_Contents[0]);   
+        }
+    }
+    resp.forEach(element => {document.getElementsByTagName("textarea")[0].value += element + "\n"
+    });
+    
+}
+
+function KeyPress(e) {
+    var evtobj = window.event? event : e
+    if (evtobj.keyCode == 82 && evtobj.ctrlKey && evtobj.altKey) throwRandom();
+}
+
+document.onkeydown = KeyPress;
