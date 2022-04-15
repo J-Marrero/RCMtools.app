@@ -115,11 +115,11 @@ function get_CPTCodes(x) {
 //helperfunction until Dx and Cpt checking can be integrated into a single function
 
 function check(x){
-get_CPTCodes(x)
-get_DxCodes(x)
+    get_CPTCodes(x)
+    get_DxCodes(x)
 }
 
-function duplicateCode(dxCode){
+function duplicateCode(dxCode){                             //TODO #2
     //determine if this is a duplicate code
     var Diagnosis_Element_Array = Array.from(document.getElementsByClassName("DX_body")[0].rows)
     var Existing_Codes = []
@@ -155,3 +155,5 @@ function KeyPress(e) {
 }
 
 document.onkeydown = KeyPress;
+
+document.addEventListener()
