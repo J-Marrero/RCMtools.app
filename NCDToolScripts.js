@@ -1,18 +1,37 @@
-//Set localstorage for first run
-function setDefaultCookies(x){
-    if(x == false){
-        console.log("Setting Cookie")
-        localStorage.setItem("Settings",'{"Background_Settings":{"firstrun":false}, "General_Settings": {"Dark_Mode": false,"Dyslexia_Font": false},"NCD_Settings":{"Supress_Duplicates": true}}')
+                                                                                                   //adds an event listener to write default settings if they have never been written
+window.addEventListener('load', (event) => {
+    try {
+        checkSetting("Settings","firstrun")
+      } catch (error) {
+        setDefaultCookies()
+        console.warn("FirstRun Wrote Default Settings")
+      }
+});
+
+                                                                                                   //Set localstorage for first run settings (and change default settings)
+function setDefaultCookies(){
+    var datetime = new Date().toString()
+    localStorage.setItem("Settings",'{"Statistics":{"setTime":"'+datetime+'"}, "Background_Settings":{"firstrun":false,"experimental":false}, "General_Settings": {"Dark_Mode": false,"Dyslexia_Font": false},"NCD_Settings":{"Supress_Duplicates": true}}')
+}
+
+                                                                                                   //check the localstorage for a setting
+function checkSetting(settingGroup,Setting){
+    if(Setting == null && settingGroup == null){
+        console.log(JSON.parse(localStorage.Settings))
+    } else {
+    return JSON.parse(localStorage.Settings)[settingGroup][Setting]
     }
 }
-//check the localstorage for a cookie
-function checkSetting(){
+
+                                                                                                   //Adds the ability to modify settings
+function changeSetting(settingGroup,Setting, newValue){
     var set_obj = JSON.parse(localStorage.Settings)
-    return set_obj
+    set_obj[settingGroup][Setting] = newValue
+    localStorage.setItem("Settings",JSON.stringify(set_obj))
 }
 
 
-// Create a placeholder row for the CPT and DX tables, do some formatting to it to make it special.
+                                                                                                   // Create a placeholder row for the CPT and DX tables, do some formatting to it to make it special.
 function placeHolderFactory(callerClassName){
 var blankCell = document.createElement('td')
     blankCell.setAttribute('colspan','4')
@@ -26,7 +45,7 @@ blankRows.appendChild(blankCell)
 return blankRows
 };
 
-//a function to clear the rows from a table
+                                                                                                   //a function to clear the rows from a table
 function clearTable(className){
    var referencedTable = document.getElementsByClassName(className)[0];
    var parentNode = referencedTable.getElementsByTagName('tbody')[0];
@@ -35,8 +54,8 @@ function clearTable(className){
    }
 };
 
-//factory to create rows from arrays of raw data provided by the 'get_' functions listed next
-//requires the use of "del_plcholder" to indicate a fancy delete button
+                                                                                                   //factory to create rows from arrays of raw data provided by the 'get_' functions listed next
+                                                                                                   //requires the use of "del_plcholder" to indicate a fancy delete button
 function rowFactory(content){
     if(Array.isArray(content) == false){
       throw Error("The content provided is not an Array!")
@@ -141,12 +160,11 @@ function rowFactory(content){
 //     return Existing_Codes.includes(dxCode)
 // }
 
-//creates Random Test data
+                                                                                                   //creates Random Test data
 function throwRandom(){
-    //Establish a container in which to put CPT and DX codes
+                                                                                                   //Establish a container in which to put CPT and DX codes
     var resp = new Array()
-    //Random Numbers => Math.round(Math.random()*10)
-    //Get your Dx Codes
+                                                                                                   //Get your Dx Codes
     for (let i = 0; i < Math.round(Math.random()*10); i++) {
         resp.push(Index[i].Contents[Math.round(Math.random()*10)]);
     }
@@ -166,12 +184,29 @@ function throwRandom(){
 
 function KeyPress(e) {
     var evtobj = window.event? event : e
-    if (evtobj.keyCode == 82 && evtobj.ctrlKey && evtobj.altKey) throwRandom(); //TODO #1
+    if (evtobj.keyCode == 82 && evtobj.ctrlKey && evtobj.altKey) throwRandom();                    //TODO #1
 }
 
 document.onkeydown = KeyPress;
 
-function check(RawCodes){
-    console.log(RawCodes)
-    localStorage.Settings
+function check(){
+    var userInput = document.getElementsByTagName("textarea")[0].value
+    if(userInput == null){
+        Error("No user input to parse")
+    }
+
+    let dxregexp = /[A-TV-Z][0-9][0-9AB]\.?[0-9A-TV-Z]{0,4}/g;                                     //do the Dx Codes first
+    let matchAlldx = userInput.matchAll(dxregexp)
+    matchAlldx = Array.from(matchAlldx);
+
+    let cptregexp = /\d{4,4}[A-Z0-9]/g
+    let matchAllcpt = userInput.matchAll(cptregexp)
+    matchAllcpt = Array.from(matchAlldx);
+    
+    console.log(matchAlldx)
+    console.log(matchAllcpt)
+
+    if(checkSetting("NCD_Settings","Supress_Duplicates") == true){                                 //checks to see if duplicate supression is on
+      //console.log(userInput.split('\n'))      
+    }
 }
