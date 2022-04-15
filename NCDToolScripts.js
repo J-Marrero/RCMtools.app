@@ -1,3 +1,17 @@
+//Set localstorage for first run
+function setDefaultCookies(x){
+    if(x == false){
+        console.log("Setting Cookie")
+        localStorage.setItem("Settings",'{"Background_Settings":{"firstrun":false}, "General_Settings": {"Dark_Mode": false,"Dyslexia_Font": false},"NCD_Settings":{"Supress_Duplicates": true}}')
+    }
+}
+//check the localstorage for a cookie
+function checkSetting(){
+    var set_obj = JSON.parse(localStorage.Settings)
+    return set_obj
+}
+
+
 // Create a placeholder row for the CPT and DX tables, do some formatting to it to make it special.
 function placeHolderFactory(callerClassName){
 var blankCell = document.createElement('td')
@@ -50,83 +64,84 @@ function rowFactory(content){
     return rowTop
 };
 
-function get_DxCodes(x) {
-    let dx_target = document.getElementsByClassName("DX_body")[0]
-    let regexp = /[A-TV-Z][0-9][0-9AB]\.?[0-9A-TV-Z]{0,4}/g;
-    let matchAll = x.matchAll(regexp);
-    matchAll = Array.from(matchAll);
-    for(var v of matchAll){
-        if(duplicateCode(v) != true){
-        var resp_array = []
-        fetch("http://icd10api.com/?code="+ v + "&desc=short&r=json")
-        .then(response => response.json())
-        .then(data => {
-          if(data.Valid == 1){
-              resp_array.push(data.Name.substring(0, 3) + "." + data.Name.substring(3, x.length))
-              resp_array.push(data.Description)
-          if(NCS.Contents.includes(v)){
-              resp_array.push("🔴")
-              } else {
-              resp_array.push("🟢")
-              }
-              resp_array.push("del_plcholder")
-              dx_target.appendChild(rowFactory(resp_array))
-              resp_array = []          
+// function get_DxCodes(x) {
+//     let dx_target = document.getElementsByClassName("DX_body")[0]
+//     let regexp = /[A-TV-Z][0-9][0-9AB]\.?[0-9A-TV-Z]{0,4}/g;
+//     let matchAll = x.matchAll(regexp);
+//     matchAll = Array.from(matchAll);
+//     for(var v of matchAll){
+//         if(duplicateCode(v) != true){
+//         var resp_array = []
+//         fetch("http://icd10api.com/?code="+ v + "&desc=short&r=json")
+//         .then(response => response.json())
+//         .then(data => {
+//           if(data.Valid == 1){
+//               resp_array.push(data.Name.substring(0, 3) + "." + data.Name.substring(3, x.length))
+//               resp_array.push(data.Description)
+//           if(NCS.Contents.includes(v)){
+//               resp_array.push("🔴")
+//               } else {
+//               resp_array.push("🟢")
+//               }
+//               resp_array.push("del_plcholder")
+//               dx_target.appendChild(rowFactory(resp_array))
+//               resp_array = []          
 
-          }
-          if(data.Valid != 1){
-              resp_array.push(v)
-              resp_array.push(data.Error)
-              resp_array.push("🚩")
-              resp_array.push("del_plcholder")
-              dx_target.appendChild(rowFactory(resp_array))
-              resp_array = []
-          }
-        })
+//           }
+//           if(data.Valid != 1){
+//               resp_array.push(v)
+//               resp_array.push(data.Error)
+//               resp_array.push("🚩")
+//               resp_array.push("del_plcholder")
+//               dx_target.appendChild(rowFactory(resp_array))
+//               resp_array = []
+//           }
+//         })
 
-        } else {throw Error(v + " is a Duplicate Diagnosis code.")}
-    } 
-};
+//         } else {throw Error(v + " is a Duplicate Diagnosis code.")}
+//     } 
+// };
 
-function get_CPTCodes(x) {
-    let cpt_target = document.getElementsByClassName("cpt_body")[0]
-    let regexp = /\d{4,4}[A-Z0-9]/g;
-    let matchAll = x.matchAll(regexp);
-    matchAll = Array.from(matchAll);
-    for(var v of matchAll){
-        var resp_Array = []
-        resp_Array.push(v[0])
-        for(var NCD_Instance of Index){
-            if(NCD_Instance.CPT_Contents.includes(v[0])){
-                resp_Array.push(NCD_Instance.Title)
-            }
-        }
-        for(var Descrip_Instance of CPT_Descrip){
-            if(Descrip_Instance.CPT == v[0]){
-             resp_Array.push(Descrip_Instance.Description)
-            }
-        }
-        resp_Array.push("")
-        resp_Array.push("del_plcholder")
-        cpt_target.appendChild(rowFactory(resp_Array))
-    }
-};
+// function get_CPTCodes(x) {
+//     let cpt_target = document.getElementsByClassName("cpt_body")[0]
+//     let regexp = /\d{4,4}[A-Z0-9]/g;
+//     let matchAll = x.matchAll(regexp);
+//     matchAll = Array.from(matchAll);
+//     for(var v of matchAll){
+//         var resp_Array = []
+//         resp_Array.push(v[0])
+//         for(var NCD_Instance of Index){
+//             if(NCD_Instance.CPT_Contents.includes(v[0])){
+//                 resp_Array.push(NCD_Instance.Title)
+//             }
+//         }
+//         for(var Descrip_Instance of CPT_Descrip){
+//             if(Descrip_Instance.CPT == v[0]){
+//              resp_Array.push(Descrip_Instance.Description)
+//             }
+//         }
+//         resp_Array.push("")
+//         resp_Array.push("del_plcholder")
+//         cpt_target.appendChild(rowFactory(resp_Array))
+//     }
+// };
 
-//helperfunction until Dx and Cpt checking can be integrated into a single function
+// //helperfunction until Dx and Cpt checking can be integrated into a single function
 
-function check(x){
-get_CPTCodes(x)
-get_DxCodes(x)
-}
+// function check(x){
+// get_CPTCodes(x)
+// get_DxCodes(x)
+// }
 
-function duplicateCode(dxCode){
-    //determine if this is a duplicate code
-    var Diagnosis_Element_Array = Array.from(document.getElementsByClassName("DX_body")[0].rows)
-    var Existing_Codes = []
-    Diagnosis_Element_Array.forEach(element => Existing_Codes.push(element.childNodes[0].innerText));
-    return Existing_Codes.includes(dxCode)
-}
+// function duplicateCode(dxCode){
+//     //determine if this is a duplicate code
+//     var Diagnosis_Element_Array = Array.from(document.getElementsByClassName("DX_body")[0].rows)
+//     var Existing_Codes = []
+//     Diagnosis_Element_Array.forEach(element => Existing_Codes.push(element.childNodes[0].innerText));
+//     return Existing_Codes.includes(dxCode)
+// }
 
+//creates Random Test data
 function throwRandom(){
     //Establish a container in which to put CPT and DX codes
     var resp = new Array()
@@ -155,3 +170,8 @@ function KeyPress(e) {
 }
 
 document.onkeydown = KeyPress;
+
+function check(RawCodes){
+    console.log(RawCodes)
+    localStorage.Settings
+}
