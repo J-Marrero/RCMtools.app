@@ -8,9 +8,9 @@
     </head>
     <body>
     <ul data-role="tabs" data-expand="true">
-        <li><a href="#">NCD Tool</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Settings</a></li>
+        <li><a href="#NCDToolView">NCD Tool</a></li>
+        <li><a href="#" class="disabled">About</a></li>
+        <li><a href="#Settings">Settings</a></li>
     </ul>
     <div id="NCDToolView">
         <div id="leftPane" class="left column"><p class="title">CPT and Diagnosis Code Input</p>
@@ -47,9 +47,67 @@
 <div id="About">
 <p>About</p>
 </div>
-<div id="Settings">
-<p>Settings</p>
-</div>
 -->
+<div id="Settings" class="invisible">
+    <ul data-role="tabs" data-expand="true">
+        <li><a href="#General">General</a></li>
+        <li><a href="#NCD_Settings">NCD Tool</a></li>
+    </ul>
+    
+    <div id="General" class="General_Settings">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>General Settings</th>
+                </tr>
+            </thead>
+            <tr>
+                <td>
+                    <h4>Dark Mode</h4>
+                </td>
+                <td>
+                    <i>Dark mode shifts the color pallate into a less bright white and a darker easier on the eyes charcoal and black (Off by default)</i>
+                </td>
+                <td>
+                    <input type="checkbox" data-role="switch" data-material="true" data-off="Off">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h4>Dyslexia Font Settings</h4>
+                </td>
+                <td>
+                    <i>This Setting Changes all of the fonts used to a more dyslexia friendly font (Off By Default)</i>
+                </td>
+                <td>
+                    <input type="checkbox" data-role="switch" data-material="true" data-off="Off">
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="NCD_Settings" class="General_Settings">
+        <table class="table striped">
+            <thead>
+                <tr>
+                    <th>NCD Tool Settings</th>
+                </tr>
+            </thead>
+            <tr>
+                <td>
+                    <h4>Supress Duplicates</h4>
+                </td>
+                <td>
+                    <i>This setting effects wether the tool automatically supresses duplicate procedure and diagnosis codes, if on, no duplicate codes will be processed. If set to off, all codes put into the tool will be processed. (On by default)</i>
+                </td>
+                <td>
+                    <input type="checkbox" data-role="switch" data-material="true" data-off="Off">
+                </td>
+            </tr>
+            <tr>
+            </tr>
+        </table>
+    </div>
+</div>
+
 </body>
 </html>
