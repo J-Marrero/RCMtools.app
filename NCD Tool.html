@@ -69,7 +69,7 @@
                     <i>Dark mode shifts the color pallate into a less bright white and a darker easier on the eyes charcoal and black (Off by default)</i>
                 </td>
                 <td>
-                    <input type="checkbox" data-role="switch" data-material="true" data-off="Off" onchange="console.log('ChangedASetting')">
+                    <input type="checkbox" data-role="switch" data-material="true" data-off="Off" onchange="console.log(this.value)">
                 </td>
             </tr>
             <tr>
@@ -80,7 +80,7 @@
                     <i>This Setting Changes all of the fonts used to a more dyslexia friendly font (Off By Default)</i>
                 </td>
                 <td>
-                    <input type="checkbox" data-role="switch" data-material="true" data-off="Off">
+                    <input type="checkbox" data-role="switch" data-material="true" data-off="Off" onchange="console.log(this.value)">
                 </td>
             </tr>
         </table>
@@ -100,7 +100,7 @@
                     <i>This setting effects wether the tool automatically supresses duplicate procedure and diagnosis codes, if on, no duplicate codes will be processed. If set to off, all codes put into the tool will be processed. (On by default)</i>
                 </td>
                 <td>
-                    <input type="checkbox" data-role="switch" data-material="true" data-off="Off">
+                    <input type="checkbox" data-role="switch" data-material="true" data-off="Off" onchange="console.log(this.value)"> 
                 </td>
             </tr>
             <tr>
