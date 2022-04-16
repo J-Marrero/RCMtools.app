@@ -107,8 +107,7 @@ function get_CPTCodes(x) {
     }
 };
 
-                                                                                                   //creates Random Test data
-function throwRandom(){
+function throwRandom(){                                                                            //creates Random Test data
                                                                                                    //Establish a container in which to put CPT and DX codes
     var resp = new Array()
                                                                                                    //Get your Dx Codes
