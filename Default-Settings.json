@@ -1,4 +1,11 @@
 {
+    "Statistics": {
+        "setTime": "datetime"
+    },
+    "Background_Settings": {
+        "firstrun": false,
+        "experimental": false
+    },
     "General_Settings": {
         "Dark_Mode": false,
         "Dyslexia_Font": false

@@ -6,6 +6,17 @@ window.addEventListener('load', (event) => {
         setDefaultCookies()
         console.warn("FirstRun Wrote Default Settings")
       }
+    
+      settingsToCheck = ["General_Settings\/Dark_Mode",                                            // #10
+                         "General_Settings\/Dyslexia_Font",
+                         "NCD_Settings\/Supress_Duplicates"]
+      for(var v of settingsToCheck){
+        var e = document.getElementById(v)
+        var prop = v.split("/")
+        if(checkSetting(prop[0],prop[1]) != e.checked){
+            // change the setting's state to its opposite if it doesnt match the localstorage settings 
+        }
+      }
 });
 
                                                                                                    //Set localstorage for first run settings (and change default settings)
@@ -24,15 +35,13 @@ function checkSetting(settingGroup,Setting){
 }
 
                                                                                                    //Adds the ability to modify settings
-function changeSetting(settingGroup,Setting, newValue){
+function changeSetting(settingGroup,Setting, newValue){ 
     var set_obj = JSON.parse(localStorage.Settings)
     set_obj[settingGroup][Setting] = newValue
     localStorage.setItem("Settings",JSON.stringify(set_obj))
 }
 
-
-                                                                                                   // Create a placeholder row for the CPT and DX tables, do some formatting to it to make it special.
-function placeHolderFactory(callerClassName){
+function placeHolderFactory(callerClassName){                                                     // Create a placeholder row for the CPT and DX tables, do some formatting to it to make it special.
 var blankCell = document.createElement('td')
     blankCell.setAttribute('colspan','4')
 var text_node = document.createElement('i')
