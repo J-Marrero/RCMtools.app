@@ -5,8 +5,10 @@ window.addEventListener('load', (event) => {
     } catch (error) {
         setDefaultCookies()
         console.warn("FirstRun Wrote Default Settings")
+
     }
     whereAmI("file:///C:/Users/perso/Documents/Development/RCMtools.app/NCD%20Tool.html","file:///C:/Users/perso/Documents/Development/RCMtools.app/Flask/NCD%20Tool.html")                                                                                     // #14 run a function to check and see if the file is correctly located to ensure that the version that gets updated is the most current version and disallow the use of unsanctioned copies of the tool
+
 });
 
 function setDefaultCookies() {                                                                     //Set localstorage for first run settings (and change default settings)
@@ -22,11 +24,13 @@ function checkSetting(settingGroup, Setting) {                                  
     }
 }
 
+
 function changeSetting(settingGroup, Setting, newValue) {                                          //Adds the ability to modify settings
     var set_obj = JSON.parse(localStorage.Settings)
     set_obj[settingGroup][Setting] = newValue
     localStorage.setItem("Settings", JSON.stringify(set_obj))
 }
+
 
 function placeHolderFactory(callerClassName) {                                                     // Create a placeholder row for the CPT and DX tables, do some formatting to it to make it special.
     var blankCell = document.createElement('td')
@@ -37,7 +41,6 @@ function placeHolderFactory(callerClassName) {                                  
     blankCell.appendChild(text_node)
     var blankRows = document.createElement('tr')
     blankRows.appendChild(blankCell)
-
     return blankRows
 };
 
