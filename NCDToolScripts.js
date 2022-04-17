@@ -1,91 +1,78 @@
-                                                                                                   //adds an event listener to write default settings if they have never been written
+//adds an event listener to write default settings if they have never been written
 window.addEventListener('load', (event) => {
     try {
-        checkSetting("Settings","firstrun")
-      } catch (error) {
+        checkSetting("Settings", "firstrun")
+    } catch (error) {
         setDefaultCookies()
         console.warn("FirstRun Wrote Default Settings")
-      }
-    
-      settingsToCheck = ["General_Settings\/Dark_Mode",                                            // #10
-                         "General_Settings\/Dyslexia_Font",
-                         "NCD_Settings\/Supress_Duplicates"]
-      for(var v of settingsToCheck){
-        var e = document.getElementById(v)
-        var prop = v.split("/")
-        if(checkSetting(prop[0],prop[1]) != e.checked){
-            // change the setting's state to its opposite if it doesnt match the localstorage settings 
-        }
-      }
+
+    }
+    whereAmI("file:///C:/Users/perso/Documents/Development/RCMtools.app/NCD%20Tool.html","file:///C:/Users/perso/Documents/Development/RCMtools.app/Flask/NCD%20Tool.html")                                                                                     // #14 run a function to check and see if the file is correctly located to ensure that the version that gets updated is the most current version and disallow the use of unsanctioned copies of the tool
+
 });
 
-                                                                                                   //Set localstorage for first run settings (and change default settings)
-function setDefaultCookies(){
+function setDefaultCookies() {                                                                     //Set localstorage for first run settings (and change default settings)
     var datetime = new Date().toString()
-    localStorage.setItem("Settings",'{"Statistics":{"setTime":"'+datetime+'"}, "Background_Settings":{"firstrun":false,"experimental":false}, "General_Settings": {"Dark_Mode": false,"Dyslexia_Font": false},"NCD_Settings":{"Supress_Duplicates": true}}')
+    localStorage.setItem("Settings", '{"Statistics":{"setTime":"' + datetime + '"}, "Background_Settings":{"firstrun":false,"experimental":false}, "General_Settings": {"Dark_Mode": false,"Dyslexia_Font": false},"NCD_Settings":{"Supress_Duplicates": true}}')
 }
 
-                                                                                                   //check the localstorage for a setting
-function checkSetting(settingGroup,Setting){
-    if(Setting == null && settingGroup == null){
+function checkSetting(settingGroup, Setting) {                                                     //check the localstorage for a setting
+    if (Setting == null && settingGroup == null) {
         console.log(JSON.parse(localStorage.Settings))
     } else {
-    return JSON.parse(localStorage.Settings)[settingGroup][Setting]
+        return JSON.parse(localStorage.Settings)[settingGroup][Setting]
     }
 }
 
-                                                                                                   //Adds the ability to modify settings
-function changeSetting(settingGroup,Setting, newValue){ 
+
+function changeSetting(settingGroup, Setting, newValue) {                                          //Adds the ability to modify settings
     var set_obj = JSON.parse(localStorage.Settings)
     set_obj[settingGroup][Setting] = newValue
-    localStorage.setItem("Settings",JSON.stringify(set_obj))
+    localStorage.setItem("Settings", JSON.stringify(set_obj))
 }
 
-function placeHolderFactory(callerClassName){                                                     // Create a placeholder row for the CPT and DX tables, do some formatting to it to make it special.
-var blankCell = document.createElement('td')
-    blankCell.setAttribute('colspan','4')
-var text_node = document.createElement('i')
+
+function placeHolderFactory(callerClassName) {                                                     // Create a placeholder row for the CPT and DX tables, do some formatting to it to make it special.
+    var blankCell = document.createElement('td')
+    blankCell.setAttribute('colspan', '4')
+    var text_node = document.createElement('i')
     text_node.className = 'hintText'
-    text_node.innerText = 'Nothing here! Add some '+ callerClassName.toString() +' codes!'
-blankCell.appendChild(text_node)
-var blankRows = document.createElement('tr')
-blankRows.appendChild(blankCell)
-
-return blankRows
+    text_node.innerText = 'Nothing here! Add some ' + callerClassName.toString() + ' codes!'
+    blankCell.appendChild(text_node)
+    var blankRows = document.createElement('tr')
+    blankRows.appendChild(blankCell)
+    return blankRows
 };
 
-                                                                                                   //a function to clear the rows from a table
-function clearTable(className){
-   var referencedTable = document.getElementsByClassName(className)[0];
-   var parentNode = referencedTable.getElementsByTagName('tbody')[0];
-   while (parentNode.firstChild) {
+function clearTable(className) {                                                                   //a function to clear the rows from a table
+    var referencedTable = document.getElementsByClassName(className)[0];
+    var parentNode = referencedTable.getElementsByTagName('tbody')[0];
+    while (parentNode.firstChild) {
         parentNode.removeChild(parentNode.firstChild);
-   }
+    }
 };
 
-                                                                                                   //factory to create rows from arrays of raw data provided by the check function (YOUR ONE STOP SHOP FOR ALL YOUR CPT AND DX NEEDS)
-                                                                                                   //requires the use of "del_plcholder" to indicate a fancy delete button
-function rowFactory(content, responsible){
-    if(Array.isArray(content) == false){
-      throw Error("The content provided is not an Array!")
+function rowFactory(content, responsible) {                                                        //factory to create rows from arrays of raw data provided by the check function (YOUR ONE STOP SHOP FOR ALL YOUR CPT AND DX NEEDS)
+    if (Array.isArray(content) == false) {                                                         //requires the use of "del_plcholder" to indicate a fancy delete button
+        throw Error("The content provided is not an Array!")
     }
-    if(content.length != 4||5){
-      if(content.length < 4){
-        throw Error("The array provided is too short!\n"+responsible)
-      } else if(content.length > 5){
-        throw Error("The array provided is too long!\n"+responsible)
-      }
+    if (content.length != 4 || 5) {
+        if (content.length < 4) {
+            throw Error("The array provided is too short!\n" + responsible)
+        } else if (content.length > 5) {
+            throw Error("The array provided is too long!\n" + responsible)
+        }
     }
     var rowTop = document.createElement("tr")
     content.forEach(element => {
-        if(typeof element == 'string' && element != "del_plcholder"){
+        if (typeof element == 'string' && element != "del_plcholder") {
             var child = document.createElement('td')
             child.innerText = element
-        } 
-        if(typeof element == 'string' && element == "del_plcholder"){
+        }
+        if (typeof element == 'string' && element == "del_plcholder") {
             var child = document.createElement('div')
             child.className = "delete"
-            child.setAttribute("onClick","this.parentNode.parentNode.removeChild(this.parentNode)")
+            child.setAttribute("onClick", "this.parentNode.parentNode.removeChild(this.parentNode)")
         }
         rowTop.appendChild(child)
     });
@@ -97,17 +84,17 @@ function get_CPTCodes(x) {
     let regexp = /\d{4,4}[A-Z0-9]/g;
     let matchAll = x.matchAll(regexp);
     matchAll = Array.from(matchAll);
-    for(var v of matchAll){
+    for (var v of matchAll) {
         var resp_Array = []
         resp_Array.push(v[0])
-        for(var NCD_Instance of Index){
-            if(NCD_Instance.CPT_Contents.includes(v[0])){
+        for (var NCD_Instance of Index) {
+            if (NCD_Instance.CPT_Contents.includes(v[0])) {
                 resp_Array.push(NCD_Instance.Title)
             }
         }
-        for(var Descrip_Instance of CPT_Descrip){
-            if(Descrip_Instance.CPT == v[0]){
-             resp_Array.push(Descrip_Instance.Description)
+        for (var Descrip_Instance of CPT_Descrip) {
+            if (Descrip_Instance.CPT == v[0]) {
+                resp_Array.push(Descrip_Instance.Description)
             }
         }
         resp_Array.push("")
@@ -116,31 +103,30 @@ function get_CPTCodes(x) {
     }
 };
 
-function throwRandom(){                                                                            //creates Random Test data
-                                                                                                   //Establish a container in which to put CPT and DX codes
-    var resp = new Array()
-                                                                                                   //Get your Dx Codes
-    for (let i = 0; i < Math.round(Math.random()*10); i++) {
-        resp.push(Index[i].Contents[Math.round(Math.random()*10)]);
+function throwRandom() {                                                                            //creates Random Test data
+    var resp = new Array()                                                                          //Establish a container in which to put CPT and DX codes
+    for (let i = 0; i < Math.round(Math.random() * 10); i++) {                                      //Get your Dx Codes
+        resp.push(Index[i].Contents[Math.round(Math.random() * 10)]);
     }
-    //Get your CPT Codes
-    for (let i = 0; i < Math.round(Math.random()*10); i++) {
-        if(Index[i].CPT_Contents.length > 1){
-            var randombtwn = Math.floor(Math.random() * (Index[i].CPT_Contents.length - 0 + 1) + 0) 
+                  
+    for (let i = 0; i < Math.round(Math.random() * 10); i++) {                                     //Get your CPT Codes
+        if (Index[i].CPT_Contents.length > 1) {
+            var randombtwn = Math.floor(Math.random() * (Index[i].CPT_Contents.length - 0 + 1) + 0)
             resp.push(Index[i].CPT_Contents[randombtwn]);
         } else {
-            resp.push(Index[i].CPT_Contents[0]);   
+            resp.push(Index[i].CPT_Contents[0]);
         }
     }
-    resp.forEach(element => {document.getElementsByTagName("textarea")[0].value += element + "\n"
+    resp.forEach(element => {
+        document.getElementsByTagName("textarea")[0].value += element + "\n"
     });
-    
+
 }
 
-function KeyPress(e) {
-    var evtobj = window.event? event : e
-    if (evtobj.keyCode == 82 && evtobj.ctrlKey && evtobj.altKey) throwRandom();                    //TODO #1
-}
+function KeyPress(e) {                                                                             //a function that pushes a random set of dx and CPT codes into the tool's input field in order to test the use of the tool.
+    var evtobj = window.event ? event : e
+    if (evtobj.keyCode == 82 && evtobj.ctrlKey && evtobj.altKey) throwRandom();                    
+};
 
 document.onkeydown = KeyPress;
 
@@ -154,7 +140,7 @@ function check() {
     }
 
     var ParsedDx = []                                                                              //Run RegEx to find and get Diangnosis codes and put them into an array called ParsedDx
-    let dxregexp = /[A-TV-Z][0-9][0-9AB]\.?[0-9A-TV-Z]{0,4}/g;                                     
+    let dxregexp = /[A-TV-Z][0-9][0-9AB]\.?[0-9A-TV-Z]{0,4}/g;
     let matchAlldx = userInput.matchAll(dxregexp)
     matchAlldx = Array.from(matchAlldx)
     matchAlldx.forEach(element => { ParsedDx.push(element[0]) });
@@ -172,7 +158,7 @@ function check() {
         var CPT = ParsedCPT
         var DX = ParsedDx
     }
-    
+
     for (var v of DX) {                                                                            //for each diagnosis from the prior step (duplicate-safe or duplicate-dangerous)
         var resp_array = []
         fetch("http://icd10api.com/?code=" + v + "&desc=short&r=json")                             //send them to a free dx API found on the internet
@@ -187,7 +173,7 @@ function check() {
                         resp_array.push("🟢")
                     }
                     resp_array.push("del_plcholder")
-                    dx_target.appendChild(rowFactory(resp_array,"DX_PARSE"))
+                    dx_target.appendChild(rowFactory(resp_array, "DX_PARSE"))
                     resp_array = []
 
                 }
@@ -196,27 +182,60 @@ function check() {
                     resp_array.push(data.Error)
                     resp_array.push("🚩")
                     resp_array.push("del_plcholder")
-                    dx_target.appendChild(rowFactory(resp_array,"DX_PARSE"))
+                    dx_target.appendChild(rowFactory(resp_array, "DX_PARSE"))
                     resp_array = []
                 }
             })
     };
-    for(var v of CPT){
+    for (var v of CPT) {
         var resp_Array = []
         resp_Array.push(v)
-        for(var NCD_Instance of Index){
-            if(NCD_Instance.CPT_Contents.includes(v)){
+        for (var NCD_Instance of Index) {
+            if (NCD_Instance.CPT_Contents.includes(v)) {
                 resp_Array.push(NCD_Instance.Title)
             }
         }
-        for(var Descrip_Instance of CPT_Descrip){
-            if(Descrip_Instance.CPT == v){
-             resp_Array.push(Descrip_Instance.Description)
+        for (var Descrip_Instance of CPT_Descrip) {
+            if (Descrip_Instance.CPT == v) {
+                resp_Array.push(Descrip_Instance.Description)
             }
         }
         resp_Array.push("")
         resp_Array.push("del_plcholder")
-        cpt_target.appendChild(rowFactory(resp_Array,"CPT_PARSE"))
+        cpt_target.appendChild(rowFactory(resp_Array, "CPT_PARSE"))
     }
 
 }
+
+
+function whereAmI(Alpha,Beta) {                                                                                   
+    var PWD = document.location.href
+    var AWD = Alpha
+    var AAWD = Beta
+    console.log("Present Working Directory: "+PWD+"\nAccepted Working Directory: "+AWD+"\nAlternate Accepted Working Directory: "+AAWD)
+    if (PWD == AWD || PWD == AAWD) {
+        console.log("Document Correctly Located")
+    } else {
+        document.body.innerHTML = ""
+        Metro.dialog.create({
+            title: "Are you using the correct file?",
+            content: "<div>The File you are attempting to access is copy protected, you are seeing this because you have copied or are attempting to access an unsanctioned copy of the RCM-Tool.App local version. If you believe that you are recieving this message in error please feel free to contact the file's <a href='mailto:jomarrero@prohealthcare.com?subject=RCM-Tool.App%20Issue&body=Hi%20Josh!%2C%0D%0A%0D%0AIt%20looks%20like%20my%20version%20of%20RCM-Tool.App%20is%20not%20working.%20Here%20are%20some%20additional%20details%3A%0D%0A%0D%0AFile%20Location%3A%20"+PWD+"%0D%0ALast%20Settings%20Reset%3A%20"+checkSetting("Statistics","setTime")+"%0D%0A%0D%0ACould%20you%20get%20in%20touch%20with%20we%20so%20that%20we%20can%20take%20a%20look%20at%20it%3F%0D%0A%0D%0AThank%20You%2C%0D%0A%0D%0A%5Byour%20signature%20here%5D'>administrator</a>. If you would like to be redirected to the correct file, please click below.</div>",
+            actions: [
+                {
+                    caption: "Redirect",
+                    cls: "js-dialog-close alert",
+                    onclick: function () {
+                        window.location = AWD;
+                    }
+                },
+                {
+                    caption: "Leave",
+                    cls: "js-dialog-close",
+                    onclick: function () {
+                        window.location = 'https://www.prohealthcare.com/';
+                    }
+                }
+            ]
+        });
+    }
+};
