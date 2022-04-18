@@ -164,6 +164,8 @@ function check() {
         var DX = ParsedDx
     }
     
+    document.getElementById("rightPane").appendChild(createGrid(CPT,DX))
+    
     for (var v of DX) {                                                                            //for each diagnosis from the prior step (duplicate-safe or duplicate-dangerous)
         var resp_array = []
         fetch("http://icd10api.com/?code=" + v + "&desc=short&r=json")                             //send them to a free dx API found on the internet
@@ -211,3 +213,71 @@ function check() {
     }
 
 }
+
+function createGrid(CPT, DX) {
+    let response = [["Corner",]]
+    for (var proc of CPT) {
+        response[0].push(proc)
+    }
+    for (var diag of DX) {
+        var temprow = []
+        temprow.push(diag)
+        for (var proc of CPT) {
+            for (var n of Index) {
+                if (n.CPT_Contents.includes(proc)) {
+                    temprow.push(n.Contents.includes(diag))
+                }
+            }
+        }
+        response.push(temprow)
+    }
+    console.log(response)
+
+    var tableNode = document.createElement("table")
+    tableNode.className = "table subcompact cell-border"
+    var tHeader = document.createElement("thead")
+    var tBody = document.createElement("tbody")
+    tBody.className = "row-hover column-hover"
+    tableNode.appendChild(tHeader)
+    tableNode.appendChild(tBody)
+
+    for (var row of response) {
+        if(response.indexOf(row) == 0){
+            var WorkingRow = document.createElement("tr")
+            for (var cell of row) {
+                var WorkingCell = document.createElement("th")
+                WorkingCell.innerText = cell
+                WorkingRow.appendChild(WorkingCell)
+            }
+            tHeader.appendChild(WorkingRow)
+        } else {
+            var WorkingRow = document.createElement("tr")
+            for (var cell of row) {
+                var WorkingCell = document.createElement("td")
+                if(cell == true){
+                    WorkingCell.className = "success"
+                    WorkingCell.innerText = "True"
+                } else if(cell == false){
+                    WorkingCell.className = "alert"
+                    WorkingCell.innerText = "False"
+                } else {
+                    WorkingCell.innerText = cell
+                }
+                WorkingCell.innerText = cell
+                WorkingRow.appendChild(WorkingCell)
+            }
+            tBody.appendChild(WorkingRow)
+        }
+    }
+
+    console.log(tableNode)
+
+    if(document.getElementById("rightPane").childElementCount == 1){
+        return tableNode
+    } else {
+        var incumbent = document.getElementById("rightPane").childNodes[1]
+        document.getElementById("rightPane").removeChild(incumbent)
+        return tableNode
+    }
+
+};
