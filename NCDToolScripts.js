@@ -5,10 +5,9 @@ window.addEventListener('load', (event) => {
     } catch (error) {
         setDefaultCookies()
         console.warn("FirstRun Wrote Default Settings")
-
     }
     whereAmI("file:///C:/Users/perso/Documents/Development/RCMtools.app/NCD%20Tool.html","file:///C:/Users/perso/Documents/Development/RCMtools.app/Flask/NCD%20Tool.html")                                                                                     // #14 run a function to check and see if the file is correctly located to ensure that the version that gets updated is the most current version and disallow the use of unsanctioned copies of the tool
-
+    checkBrowser()
 });
 
 function setDefaultCookies() {                                                                     //Set localstorage for first run settings (and change default settings)
@@ -208,7 +207,6 @@ function check() {
         cpt_target.appendChild(rowFactory(resp_Array, "CPT_PARSE"))
     }
 
-}
 
 
 function createGrid(CPT, DX) {
@@ -301,6 +299,7 @@ function whereAmI(Alpha,Beta) {
                     }
                 },
                 {
+
                     caption: "Leave",
                     cls: "js-dialog-close",
                     onclick: function () {
@@ -308,6 +307,8 @@ function whereAmI(Alpha,Beta) {
                     }
                 }
             ]
-        });
+
+        });        
+      }
     }
-};
+
