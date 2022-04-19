@@ -6,6 +6,8 @@ window.addEventListener('load', (event) => {
         setDefaultCookies()
         console.warn("FirstRun Wrote Default Settings")
       }
+      
+      checkBrowser()
 });
 
                                                                                                    //Set localstorage for first run settings (and change default settings)
@@ -211,3 +213,20 @@ function check() {
     }
 
 }
+function checkBrowser(){
+    if(navigator.userAgentData.brands[2]["brand"] != "Google Chrome"){
+    Metro.dialog.create({
+            title: "Are you using the correct file?",
+            content: "<div>This Application prefers the use of Google Chrome, if you dont use chrome the site may misbehave and cause issues!</div>",
+            actions: [
+                {
+                    caption: "Leave",
+                    cls: "js-dialog-close",
+                    onclick: function () {
+                        window.location = 'https://www.prohealthcare.com/';
+                    }
+                }
+            ]
+        });        
+      }
+    }
