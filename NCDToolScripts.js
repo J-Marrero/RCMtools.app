@@ -7,7 +7,14 @@ window.addEventListener('load', (event) => {
         console.warn("FirstRun Wrote Default Settings")
     }
     whereAmI("file:///C:/Users/perso/Documents/Development/RCMtools.app/NCD%20Tool.html", "file:///C:/Users/perso/Documents/Development/RCMtools.app/Flask/NCD%20Tool.html")                                                                             // #14 run a function to check and see if the file is correctly located to ensure that the version that gets updated is the most current version and disallow the use of unsanctioned copies of the tool
-    checkBrowser()
+
+
+    var v = "https://uploadbeta.com/api/parse-user-agent/?cached&s=nUser-Agent:" + encodeURI(navigator.userAgent)                         //can get code to execute in chrome but arrow function not working in iexplore. #32
+    var oReq = new XMLHttpRequest();
+    oReq.addEventListener("load", function(){if(JSON.parse(this.responseText).browser != "Chrome"){window.alert("This Application prefers the use of Google Chrome, if you dont use chrome the site may misbehave and cause issues!")}});
+    oReq.open("GET", v);
+    oReq.send();
+
 });
 
 function setDefaultCookies() {                                                                     //Set localstorage for first run settings (and change default settings)
@@ -209,123 +216,105 @@ function check() {
 
 }
 
-    function createGrid(CPT, DX) {
-        let response = [["Corner",]]
+function createGrid(CPT, DX) {
+    let response = [["Corner",]]
+    for (var proc of CPT) {
+        response[0].push(proc)
+    }
+    for (var diag of DX) {
+        var temprow = []
+        temprow.push(diag)
         for (var proc of CPT) {
-            response[0].push(proc)
-        }
-        for (var diag of DX) {
-            var temprow = []
-            temprow.push(diag)
-            for (var proc of CPT) {
-                for (var n of Index) {
-                    if (n.CPT_Contents.includes(proc)) {
-                        temprow.push(n.Contents.includes(diag))
-                    }
+            for (var n of Index) {
+                if (n.CPT_Contents.includes(proc)) {
+                    temprow.push(n.Contents.includes(diag))
                 }
             }
-            response.push(temprow)
         }
-        console.log(response)
+        response.push(temprow)
+    }
+    console.log(response)
 
-        var tableNode = document.createElement("table")
-        tableNode.className = "table subcompact cell-border"
-        var tHeader = document.createElement("thead")
-        var tBody = document.createElement("tbody")
-        tBody.className = "row-hover column-hover"
-        tableNode.appendChild(tHeader)
-        tableNode.appendChild(tBody)
+    var tableNode = document.createElement("table")
+    tableNode.className = "table subcompact cell-border"
+    var tHeader = document.createElement("thead")
+    var tBody = document.createElement("tbody")
+    tBody.className = "row-hover column-hover"
+    tableNode.appendChild(tHeader)
+    tableNode.appendChild(tBody)
 
-        for (var row of response) {
-            if (response.indexOf(row) == 0) {
-                var WorkingRow = document.createElement("tr")
-                for (var cell of row) {
-                    var WorkingCell = document.createElement("th")
-                    WorkingCell.innerText = cell
-                    WorkingRow.appendChild(WorkingCell)
-                }
-                tHeader.appendChild(WorkingRow)
-            } else {
-                var WorkingRow = document.createElement("tr")
-                for (var cell of row) {
-                    var WorkingCell = document.createElement("td")
-                    if (cell == true) {
-                        WorkingCell.className = "success"
-                        WorkingCell.innerText = "True"
-                    } else if (cell == false) {
-                        WorkingCell.className = "alert"
-                        WorkingCell.innerText = "False"
-                    } else {
-                        WorkingCell.innerText = cell
-                    }
-                    WorkingCell.innerText = cell
-                    WorkingRow.appendChild(WorkingCell)
-                }
-                tBody.appendChild(WorkingRow)
+    for (var row of response) {
+        if (response.indexOf(row) == 0) {
+            var WorkingRow = document.createElement("tr")
+            for (var cell of row) {
+                var WorkingCell = document.createElement("th")
+                WorkingCell.innerText = cell
+                WorkingRow.appendChild(WorkingCell)
             }
-        }
-
-        console.log(tableNode)
-
-        if (document.getElementById("rightPane").childElementCount == 1) {
-            return tableNode
+            tHeader.appendChild(WorkingRow)
         } else {
-            var incumbent = document.getElementById("rightPane").childNodes[1]
-            document.getElementById("rightPane").removeChild(incumbent)
-            return tableNode
+            var WorkingRow = document.createElement("tr")
+            for (var cell of row) {
+                var WorkingCell = document.createElement("td")
+                if (cell == true) {
+                    WorkingCell.className = "success"
+                    WorkingCell.innerText = "True"
+                } else if (cell == false) {
+                    WorkingCell.className = "alert"
+                    WorkingCell.innerText = "False"
+                } else {
+                    WorkingCell.innerText = cell
+                }
+                WorkingCell.innerText = cell
+                WorkingRow.appendChild(WorkingCell)
+            }
+            tBody.appendChild(WorkingRow)
         }
+    }
 
-    };
+    console.log(tableNode)
+
+    if (document.getElementById("rightPane").childElementCount == 1) {
+        return tableNode
+    } else {
+        var incumbent = document.getElementById("rightPane").childNodes[1]
+        document.getElementById("rightPane").removeChild(incumbent)
+        return tableNode
+    }
+
+};
 
 
-    function whereAmI(Alpha, Beta) {
-        var PWD = document.location.href
-        var AWD = Alpha
-        var AAWD = Beta
-        console.log("Present Working Directory: " + PWD + "\nAccepted Working Directory: " + AWD + "\nAlternate Accepted Working Directory: " + AAWD)
-        if (PWD == AWD || PWD == AAWD) {
-            console.log("Document Correctly Located")
-        } else {
-            document.body.innerHTML = ""
-            Metro.dialog.create({
-                title: "Are you using the correct file?",
-                content: "<div>The File you are attempting to access is copy protected, you are seeing this because you have copied or are attempting to access an unsanctioned copy of the RCM-Tool.App local version. If you believe that you are recieving this message in error please feel free to contact the file's <a href='mailto:jomarrero@prohealthcare.com?subject=RCM-Tool.App%20Issue&body=Hi%20Josh!%2C%0D%0A%0D%0AIt%20looks%20like%20my%20version%20of%20RCM-Tool.App%20is%20not%20working.%20Here%20are%20some%20additional%20details%3A%0D%0A%0D%0AFile%20Location%3A%20" + PWD + "%0D%0ALast%20Settings%20Reset%3A%20" + checkSetting("Statistics", "setTime") + "%0D%0A%0D%0ACould%20you%20get%20in%20touch%20with%20we%20so%20that%20we%20can%20take%20a%20look%20at%20it%3F%0D%0A%0D%0AThank%20You%2C%0D%0A%0D%0A%5Byour%20signature%20here%5D'>administrator</a>. If you would like to be redirected to the correct file, please click below.</div>",
-                actions: [
-                    {
-                        caption: "Redirect",
-                        cls: "js-dialog-close alert",
-                        onclick: function () {
-                            window.location = AWD;
-                        }
-                    },
-                    {
-
-                        caption: "Leave",
-                        cls: "js-dialog-close",
-                        onclick: function () {
-                            window.location = 'https://www.prohealthcare.com/';
-                        }
+function whereAmI(Alpha, Beta) {
+    var PWD = document.location.href
+    var AWD = Alpha
+    var AAWD = Beta
+    console.log("Present Working Directory: " + PWD + "\nAccepted Working Directory: " + AWD + "\nAlternate Accepted Working Directory: " + AAWD)
+    if (PWD == AWD || PWD == AAWD) {
+        console.log("Document Correctly Located")
+    } else {
+        document.body.innerHTML = ""
+        Metro.dialog.create({
+            title: "Are you using the correct file?",
+            content: "<div>The File you are attempting to access is copy protected, you are seeing this because you have copied or are attempting to access an unsanctioned copy of the RCM-Tool.App local version. If you believe that you are recieving this message in error please feel free to contact the file's <a href='mailto:jomarrero@prohealthcare.com?subject=RCM-Tool.App%20Issue&body=Hi%20Josh!%2C%0D%0A%0D%0AIt%20looks%20like%20my%20version%20of%20RCM-Tool.App%20is%20not%20working.%20Here%20are%20some%20additional%20details%3A%0D%0A%0D%0AFile%20Location%3A%20" + PWD + "%0D%0ALast%20Settings%20Reset%3A%20" + checkSetting("Statistics", "setTime") + "%0D%0A%0D%0ACould%20you%20get%20in%20touch%20with%20we%20so%20that%20we%20can%20take%20a%20look%20at%20it%3F%0D%0A%0D%0AThank%20You%2C%0D%0A%0D%0A%5Byour%20signature%20here%5D'>administrator</a>. If you would like to be redirected to the correct file, please click below.</div>",
+            actions: [
+                {
+                    caption: "Redirect",
+                    cls: "js-dialog-close alert",
+                    onclick: function () {
+                        window.location = AWD;
                     }
-                ]
+                },
+                {
 
-            });
-        }
-    };
-
-    function checkBrowser() {
-        if (navigator.userAgentData.brands[2]["brand"] != "Google Chrome") {
-            Metro.dialog.create({
-                title: "Are you using the correct file?",
-                content: "<div>This Application prefers the use of Google Chrome, if you dont use chrome the site may misbehave and cause issues!</div>",
-                actions: [
-                    {
-                        caption: "Leave",
-                        cls: "js-dialog-close",
-                        onclick: function () {
-                            window.location = 'https://www.prohealthcare.com/';
-                        }
+                    caption: "Leave",
+                    cls: "js-dialog-close",
+                    onclick: function () {
+                        window.location = 'https://www.prohealthcare.com/';
                     }
-                ]
-            });
-        }
-    };
+                }
+            ]
+
+        });
+    }
+};
