@@ -7,14 +7,6 @@ window.addEventListener('load', (event) => {
         console.warn("FirstRun Wrote Default Settings")
     }
     whereAmI("file:///C:/Users/perso/Documents/Development/RCMtools.app/NCD%20Tool.html", "file:///C:/Users/perso/Documents/Development/RCMtools.app/Flask/NCD%20Tool.html")                                                                             // #14 run a function to check and see if the file is correctly located to ensure that the version that gets updated is the most current version and disallow the use of unsanctioned copies of the tool
-
-
-    var v = "https://uploadbeta.com/api/parse-user-agent/?cached&s=nUser-Agent:" + encodeURI(navigator.userAgent)                         //can get code to execute in chrome but arrow function not working in iexplore. #32
-    var oReq = new XMLHttpRequest();
-    oReq.addEventListener("load", function(){if(JSON.parse(this.responseText).browser != "Chrome"){window.alert("This Application prefers the use of Google Chrome, if you dont use chrome the site may misbehave and cause issues!")}});
-    oReq.open("GET", v);
-    oReq.send();
-
 });
 
 function setDefaultCookies() {                                                                     //Set localstorage for first run settings (and change default settings)
