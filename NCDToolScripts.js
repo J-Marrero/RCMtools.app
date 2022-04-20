@@ -209,7 +209,11 @@ function check() {
 }
 
 function createGrid(CPT, DX) {
-    let response = [["Corner",]]
+    var Corner_Button = document.createElement('button')
+        Corner_Button.className = "button alert clear babybutton"
+        Corner_Button.setAttribute("onClick","clearTable('fred')")
+        Corner_Button.innerText = "Clear"
+    let response = [[null,]]
     for (var proc of CPT) {
         response[0].push(proc)
     }
@@ -228,7 +232,7 @@ function createGrid(CPT, DX) {
     console.log(response)
 
     var tableNode = document.createElement("table")
-    tableNode.className = "table subcompact cell-border"
+    tableNode.className = "table subcompact cell-border fred"
     var tHeader = document.createElement("thead")
     var tBody = document.createElement("tbody")
     tBody.className = "row-hover column-hover"
@@ -239,6 +243,9 @@ function createGrid(CPT, DX) {
         if (response.indexOf(row) == 0) {
             var WorkingRow = document.createElement("tr")
             for (var cell of row) {
+                if(cell == ""){
+                    WorkingRow.appendChild(Corner_Button)
+                }
                 var WorkingCell = document.createElement("th")
                 WorkingCell.innerText = cell
                 WorkingRow.appendChild(WorkingCell)
