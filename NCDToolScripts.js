@@ -6,7 +6,7 @@ window.addEventListener('load', (event) => {
         setDefaultCookies()
         console.warn("FirstRun Wrote Default Settings")
     }
-    whereAmI("file:///C:/Users/perso/Documents/Development/RCMtools.app/NCD%20Tool.html", "file:///C:/Users/perso/Documents/Development/RCMtools.app/Flask/NCD%20Tool.html")                                                                             // #14 run a function to check and see if the file is correctly located to ensure that the version that gets updated is the most current version and disallow the use of unsanctioned copies of the tool
+    whereAmI("file:///C:/Users/perso/Development/RCMtools.app/NCD%20Tool.html", "file:///C:/Users/perso/Development/RCMtools.app/Flask/NCD%20Tool.html")                                                                             // #14 run a function to check and see if the file is correctly located to ensure that the version that gets updated is the most current version and disallow the use of unsanctioned copies of the tool
 });
 
 function setDefaultCookies() {                                                                     //Set localstorage for first run settings (and change default settings)
