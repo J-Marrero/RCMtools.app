@@ -1,22 +1,30 @@
 //adds an event listener to write default settings if they have never been written
 window.addEventListener('load', (event) => {
-    try {
-        checkSetting("Settings", "firstrun")
-    } catch (error) {
+try {
+    if(checkSetting("Background_Settings","firstrun") == true){
         setDefaultCookies()
-        console.warn("FirstRun Wrote Default Settings")
     }
+} catch (error) {
+    setDefaultCookies()
+    verbose("Encountered an error attempting to check settings","warn","setDefaultCookies - (initial run)")
+}
+
     whereAmI("file:///C:/Users/perso/Development/RCMtools.app/NCD%20Tool.html", "file:///C:/Users/perso/Development/RCMtools.app/Flask/NCD%20Tool.html")                                                                             // #14 run a function to check and see if the file is correctly located to ensure that the version that gets updated is the most current version and disallow the use of unsanctioned copies of the tool
 });
 
 function setDefaultCookies() {                                                                     //Set localstorage for first run settings (and change default settings)
     var datetime = new Date().toString()
-    localStorage.setItem("Settings", '{"Statistics":{"setTime":"' + datetime + '"}, "Background_Settings":{"firstrun":false,"experimental":false}, "General_Settings": {"Dark_Mode": false,"Dyslexia_Font": false},"NCD_Settings":{"Supress_Duplicates": true}}')
+    localStorage.setItem("Settings", `{ "Statistics": {"setTime": null}, 
+                                        "Background_Settings": {"firstrun": false, "experimental": false, "verbose": true}, 
+                                        "General_Settings": { "Dark_Mode": false, "Dyslexia_Font": false}, 
+                                        "NCD_Settings": {"Supress_Duplicates": true}
+                                    }`);
+    verbose("Set Default Cookies","warn","setDefaultCookies")
 }
 
 function checkSetting(settingGroup, Setting) {                                                     //check the localstorage for a setting
     if (Setting == null && settingGroup == null) {
-        console.log(JSON.parse(localStorage.Settings))
+        verbose(JSON.parse(localStorage.Settings),"log","checkSetting")
     } else {
         return JSON.parse(localStorage.Settings)[settingGroup][Setting]
     }
@@ -229,7 +237,7 @@ function createGrid(CPT, DX) {
         }
         response.push(temprow)
     }
-    console.log(response)
+    verbose(response,'log','createGrid')
 
     var tableNode = document.createElement("table")
     tableNode.className = "table subcompact cell-border fred"
@@ -271,7 +279,7 @@ function createGrid(CPT, DX) {
         }
     }
 
-    console.log(tableNode)
+    verbose(tableNode,'log','createGrid')
 
     if (document.getElementById("rightPane").childElementCount == 1) {
         return tableNode
@@ -283,14 +291,13 @@ function createGrid(CPT, DX) {
 
 };
 
-
 function whereAmI(Alpha, Beta) {
     var PWD = document.location.href
     var AWD = Alpha
     var AAWD = Beta
-    console.log("Present Working Directory: " + PWD + "\nAccepted Working Directory: " + AWD + "\nAlternate Accepted Working Directory: " + AAWD)
+    verbose("Present Working Directory: " + PWD + "\nAccepted Working Directory: " + AWD + "\nAlternate Accepted Working Directory: " + AAWD,"log","whereAmI")
     if (PWD == AWD || PWD == AAWD) {
-        console.log("Document Correctly Located")
+        verbose("Document Correctly Located","log","whereAmI")
     } else {
         document.body.innerHTML = ""
         Metro.dialog.create({
@@ -316,4 +323,17 @@ function whereAmI(Alpha, Beta) {
 
         });
     }
+};
+
+function verbose(output,urgency,caller){
+    var feedback = "Verbose Feedback From: "+caller+"\n\n"+output
+            if(checkSetting("Background_Settings","verbose") == true){
+            if(urgency == "log"){
+                console.log(feedback)
+            }if(urgency == "warn"){
+                console.warn(feedback)
+            }if(urgency == "error"){
+                console.error(feedback)
+            }
+        }
 };
