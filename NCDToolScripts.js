@@ -19,6 +19,7 @@ function setDefaultCookies() {                                                  
                                         "General_Settings": { "Dark_Mode": false, "Dyslexia_Font": false}, 
                                         "NCD_Settings": {"Supress_Duplicates": true}
                                     }`);
+    changeSetting("Statistics","setTime",datetime)
     verbose("Set Default Cookies","warn","setDefaultCookies")
 }
 
