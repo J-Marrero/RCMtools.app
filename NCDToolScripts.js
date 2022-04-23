@@ -168,7 +168,13 @@ function check() {
 
 
     document.getElementById("rightPane").appendChild(createGrid(CPT, DX))
-
+    for(var v of document.getElementsByClassName("alert cell")){    //works on #28 not why not firing with the function.
+        v.innerText = "False"
+    }
+    for(var v of document.getElementsByClassName("success cell")){
+        v.innerText = "True"
+    }
+    
     for (var v of DX) {                                                                            //for each diagnosis from the prior step (duplicate-safe or duplicate-dangerous)
         var resp_array = []
         fetch("http://icd10api.com/?code=" + v + "&desc=short&r=json")                             //send them to a free dx API found on the internet
@@ -266,10 +272,8 @@ function createGrid(CPT, DX) {
                 var WorkingCell = document.createElement("td")
                 if (cell == true) {
                     WorkingCell.className = "success cell"
-                    WorkingCell.innerText = "True"
                 } else if (cell == false) {
                     WorkingCell.className = "alert cell"
-                    WorkingCell.innerText = "False"
                 } else {
                     WorkingCell.innerText = cell
                 }
@@ -283,22 +287,10 @@ function createGrid(CPT, DX) {
     verbose(tableNode,'log','createGrid')
 
     if (document.getElementById("rightPane").childElementCount == 1) {
-        for(var v of document.getElementsByClassName("alert cell")){    //works on #28 not why not firing with the function.
-            v.innerText = "False"
-        }
-        for(var v of document.getElementsByClassName("success cell")){
-            v.innerText = "True"
-        }
         return tableNode
     } else {
         var incumbent = document.getElementById("rightPane").childNodes[1]
         document.getElementById("rightPane").removeChild(incumbent)
-        for(var v of document.getElementsByClassName("alert cell")){    //works on #28 not why not firing with the function.
-            v.innerText = "False"
-        }
-        for(var v of document.getElementsByClassName("success cell")){
-            v.innerText = "True"
-        }
         return tableNode
     }
 };
