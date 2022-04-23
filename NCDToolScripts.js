@@ -9,7 +9,7 @@ try {
     verbose("Encountered an error attempting to check settings","warn","setDefaultCookies - (initial run)")
 }
 
-    whereAmI("file:///C:/Users/perso/Development/RCMtools.app/NCD%20Tool.html", "file:///C:/Users/perso/Development/RCMtools.app/Flask/NCD%20Tool.html")                                                                             // #14 run a function to check and see if the file is correctly located to ensure that the version that gets updated is the most current version and disallow the use of unsanctioned copies of the tool
+    //whereAmI("file:///C:/Users/perso/Development/RCMtools.app/NCD%20Tool.html", "file:///C:/Users/perso/Development/RCMtools.app/Flask/NCD%20Tool.html")                                                                             // #14 run a function to check and see if the file is correctly located to ensure that the version that gets updated is the most current version and disallow the use of unsanctioned copies of the tool
 });
 
 function setDefaultCookies() {                                                                     //Set localstorage for first run settings (and change default settings)
@@ -168,7 +168,13 @@ function check() {
 
 
     document.getElementById("rightPane").appendChild(createGrid(CPT, DX))
-
+    for(var v of document.getElementsByClassName("alert cell")){    //works on #28 not why not firing with the function.
+        v.innerText = "False"
+    }
+    for(var v of document.getElementsByClassName("success cell")){
+        v.innerText = "True"
+    }
+    
     for (var v of DX) {                                                                            //for each diagnosis from the prior step (duplicate-safe or duplicate-dangerous)
         var resp_array = []
         fetch("http://icd10api.com/?code=" + v + "&desc=short&r=json")                             //send them to a free dx API found on the internet
@@ -265,11 +271,9 @@ function createGrid(CPT, DX) {
             for (var cell of row) {
                 var WorkingCell = document.createElement("td")
                 if (cell == true) {
-                    WorkingCell.className = "success"
-                    WorkingCell.innerText = "True"
+                    WorkingCell.className = "success cell"
                 } else if (cell == false) {
-                    WorkingCell.className = "alert"
-                    WorkingCell.innerText = "False"
+                    WorkingCell.className = "alert cell"
                 } else {
                     WorkingCell.innerText = cell
                 }
@@ -289,7 +293,6 @@ function createGrid(CPT, DX) {
         document.getElementById("rightPane").removeChild(incumbent)
         return tableNode
     }
-
 };
 
 function whereAmI(Alpha, Beta) {
