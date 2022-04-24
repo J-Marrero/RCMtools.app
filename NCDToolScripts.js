@@ -12,7 +12,22 @@ try {
     //whereAmI("file:///C:/Users/perso/Development/RCMtools.app/NCD%20Tool.html", "file:///C:/Users/perso/Development/RCMtools.app/Flask/NCD%20Tool.html")                                                                             // #14 run a function to check and see if the file is correctly located to ensure that the version that gets updated is the most current version and disallow the use of unsanctioned copies of the tool
 });
 
-function setDefaultCookies() {                                                                     //Set localstorage for first run settings (and change default settings)
+function setDefaultCookies(x) { //Set localstorage for first run settings (and change default settings)
+    if(x != null){
+        Metro.dialog.create({
+            title: "Your settings have been reset",
+            content: "<div>It is safe to close this window.</div>",
+            actions: [
+                {
+                    caption: "Close",
+                    cls: "js-dialog-close",
+                    onclick: function(){
+                    }
+                }
+            ]
+
+        });
+    }
     var datetime = new Date().toString()
     localStorage.setItem("Settings", `{ "Statistics": {"setTime": null}, 
                                         "Background_Settings": {"firstrun": false, "experimental": false, "verbose": true}, 
