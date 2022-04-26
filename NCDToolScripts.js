@@ -1,43 +1,24 @@
-//adds an event listener to write default settings if they have never been written
-window.addEventListener('load', (event) => {
-try {
-    if(checkSetting("Background_Settings","firstrun") == true){
-        setDefaultCookies()
+window.addEventListener('load', (event) => {                    //adds an event listener to write default settings if they have never been written                                                               
+    createSettings()
+    localStorage.setItem("Last_Visit",new Date().toString())
+    if(JSON.parse(localStorage.First_Run) == true){
+        setDefaultSettings()
     }
-} catch (error) {
-    setDefaultCookies()
-    verbose("Encountered an error attempting to check settings","warn","setDefaultCookies - (initial run)")
-}
 
     whereAmI("file:///C:/Users/perso/Development/RCMtools.app/NCD%20Tool.html", "file:///C:/Users/perso/Development/RCMtools.app/Flask/NCD%20Tool.html")                                                                             // #14 run a function to check and see if the file is correctly located to ensure that the version that gets updated is the most current version and disallow the use of unsanctioned copies of the tool
 });
 
-function setDefaultCookies() {                                                                     //Set localstorage for first run settings (and change default settings)
+function setDefaultSettings(){
     var datetime = new Date().toString()
-    localStorage.setItem("Settings", `{ "Statistics": {"setTime": null}, 
-                                        "Background_Settings": {"firstrun": false, "experimental": false, "verbose": true}, 
-                                        "General_Settings": { "Dark_Mode": false, "Dyslexia_Font": false}, 
-                                        "NCD_Settings": {"Supress_Duplicates": true}
-                                    }`);
-    changeSetting("Statistics","setTime",datetime)
-    verbose("Set Default Cookies","warn","setDefaultCookies")
-}
-
-function checkSetting(settingGroup, Setting) {                                                     //check the localstorage for a setting
-    if (Setting == null && settingGroup == null) {
-        verbose(JSON.parse(localStorage.Settings),"log","checkSetting")
-    } else {
-        return JSON.parse(localStorage.Settings)[settingGroup][Setting]
+    for(var category of default_settings){
+        for(var setting of category.Child_Settings){
+            localStorage.setItem(setting.Name,JSON.stringify(setting.Value))
+        }    
     }
+    localStorage.setItem("Last_Time_Set",datetime)
+    verbose("Set Default Cookies","warn","setDefaultCookies")
+    Metro.toast.create("Reset Settings to Defaults!", null, null, "alert");
 }
-
-
-function changeSetting(settingGroup, Setting, newValue) {                                          //Adds the ability to modify settings
-    var set_obj = JSON.parse(localStorage.Settings)
-    set_obj[settingGroup][Setting] = newValue
-    localStorage.setItem("Settings", JSON.stringify(set_obj))
-}
-
 
 function placeHolderFactory(callerClassName) {                                                     // Create a placeholder row for the CPT and DX tables, do some formatting to it to make it special.
     var blankCell = document.createElement('td')
@@ -158,7 +139,7 @@ function check() {
     matchAllcpt = Array.from(matchAllcpt)
     matchAllcpt.forEach(element => { ParsedCPT.push(element[0]) });
 
-    if (checkSetting("NCD_Settings", "Supress_Duplicates") == true) {                              //checks localstorage settings ("Settings.NCD_Settings.Supress_Duplicates") to see if duplicate supression is on
+    if(JSON.parse(localStorage.Supress_Duplicates) == true) {                              //checks localstorage settings ("Settings.NCD_Settings.Supress_Duplicates") to see if duplicate supression is on
         var CPT = Array.from(new Set(ParsedCPT))                                                   //if Duplicate supression is on, process the arrays made from regEx into sets into arrays (we want the elements to come out of this process unified and the else part of this statement will just rename the array from the prior step)
         var DX = Array.from(new Set(ParsedDx))
     } else {
@@ -303,7 +284,7 @@ function whereAmI(Alpha, Beta) {
         document.body.innerHTML = ""
         Metro.dialog.create({
             title: "Are you using the correct file?",
-            content: "<div>The File you are attempting to access is copy protected, you are seeing this because you have copied or are attempting to access an unsanctioned copy of the RCM-Tool.App local version. If you believe that you are recieving this message in error please feel free to contact the file's <a href='mailto:jomarrero@prohealthcare.com?subject=RCM-Tool.App%20Issue&body=Hi%20Josh!%2C%0D%0A%0D%0AIt%20looks%20like%20my%20version%20of%20RCM-Tool.App%20is%20not%20working.%20Here%20are%20some%20additional%20details%3A%0D%0A%0D%0AFile%20Location%3A%20" + PWD + "%0D%0ALast%20Settings%20Reset%3A%20" + checkSetting("Statistics", "setTime") + "%0D%0A%0D%0ACould%20you%20get%20in%20touch%20with%20we%20so%20that%20we%20can%20take%20a%20look%20at%20it%3F%0D%0A%0D%0AThank%20You%2C%0D%0A%0D%0A%5Byour%20signature%20here%5D'>administrator</a>. If you would like to be redirected to the correct file, please click below.</div>",
+            content: "<div>The File you are attempting to access is copy protected, you are seeing this because you have copied or are attempting to access an unsanctioned copy of the RCM-Tool.App local version. If you believe that you are recieving this message in error please feel free to contact the file's <a href='mailto:jomarrero@prohealthcare.com?subject=RCM-Tool.App%20Issue&body=Hi%20Josh!%2C%0D%0A%0D%0AIt%20looks%20like%20my%20version%20of%20RCM-Tool.App%20is%20not%20working.%20Here%20are%20some%20additional%20details%3A%0D%0A%0D%0AFile%20Location%3A%20" + PWD + "%0D%0ALast%20Settings%20Reset%3A%20" + localStorage.Last_Time_Set + "%0D%0A%0D%0ACould%20you%20get%20in%20touch%20with%20we%20so%20that%20we%20can%20take%20a%20look%20at%20it%3F%0D%0A%0D%0AThank%20You%2C%0D%0A%0D%0A%5Byour%20signature%20here%5D'>administrator</a>. If you would like to be redirected to the correct file, please click below.</div>",
             actions: [
                 {
                     caption: "Redirect",
@@ -328,7 +309,7 @@ function whereAmI(Alpha, Beta) {
 
 function verbose(output,urgency,caller){
     var feedback = "Verbose Feedback From: "+caller+"\n\n"+output
-            if(checkSetting("Background_Settings","verbose") == true){
+            if(JSON.parse(localStorage.Verbose) == true){
             if(urgency == "log"){
                 console.log(feedback)
             }if(urgency == "warn"){
@@ -338,3 +319,42 @@ function verbose(output,urgency,caller){
             }
         }
 };
+
+function createSettings(){
+    var Settings_Menu = document.getElementById("Settings_Menu")
+    for(var Major_Category of default_settings){
+        var Settings_Section = document.getElementById('Settings')  //Create var for targetting the tab tray
+        var Settings_MenuItem = document.createElement("li")        //Create Top level menu registrations for all settings in the 'default-settings' object
+        var Settings_MenuAnchor = document.createElement("a")       //Create Anchor Elements to jump to Major Category sections
+        Settings_MenuAnchor.href = "#"+Major_Category.Name
+        Settings_MenuItem.id = Major_Category.Name +"_Tab"
+        Settings_MenuItem.className = Major_Category.Default_Tab_Class
+        Settings_MenuAnchor.innerText = Major_Category.Name.replace("_"," ")
+        Settings_MenuItem.setAttribute("style","display:"+Major_Category.Display)
+        Settings_MenuItem.appendChild(Settings_MenuAnchor)
+        Settings_Menu.appendChild(Settings_MenuItem)
+        
+        var tabContent = document.createElement("div") //create the div that contains the settings to be generated
+        tabContent.setAttribute("style",Major_Category.Default_Section_Display_Style)
+        tabContent.id = Major_Category.Name
+        for(var Minor_Setting of Major_Category.Child_Settings){
+            var card = document.createElement("div")
+            card.className = "card bicycle"
+            var cardHeader = document.createElement("div")
+            cardHeader.className = "card-header"
+            cardHeader.innerText = Minor_Setting.Name.replace("_"," ")
+            var cardBody = document.createElement("div")
+            cardBody.className = "card-content p-2"
+            cardBody.innerText = Minor_Setting.Description
+            var cardFoot = document.createElement("div")
+            cardFoot.className = "card-footer"
+            cardFoot.appendChild(Minor_Setting.Control_Node())
+            card.appendChild(cardHeader)
+            card.appendChild(cardBody)
+            card.appendChild(cardFoot)
+            tabContent.appendChild(card)
+        }
+        Settings_Section.appendChild(tabContent)
+    }
+    
+}
