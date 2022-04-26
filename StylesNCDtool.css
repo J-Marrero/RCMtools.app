@@ -111,3 +111,12 @@ div.bicycle{
   border-radius:7px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+div.playing{
+  width:fit;
+  border-radius:7px;
+  /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+}
+ul#Notes_Zone{
+    columns: 4;
+    list-style-type: none;
+}

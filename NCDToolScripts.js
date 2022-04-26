@@ -1,5 +1,6 @@
 window.addEventListener('load', (event) => {                    //adds an event listener to write default settings if they have never been written                                                               
     createSettings()
+    populate_Notes() //writes default Notes
     localStorage.setItem("Last_Visit",new Date().toString())
     if(JSON.parse(localStorage.First_Run) == true){
         setDefaultSettings()
@@ -360,4 +361,12 @@ function createSettings(){
         Settings_Section.appendChild(tabContent)
     }
     
+}
+
+function populate_Notes(){
+    for(var note of default_notes.Contents){
+        var list_item = document.createElement("li")
+        list_item.appendChild(default_notes.Builder(note))
+        document.getElementById("Notes_Zone").appendChild(list_item)
+    }
 }

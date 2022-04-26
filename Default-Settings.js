@@ -208,41 +208,57 @@ let default_settings = [
 let default_notes = {
     Builder:function(x){
         var card = document.createElement("div")
-        card.className = "Card"
-
+        card.className = "card playing"
         var cardHead = document.createElement("div")
-        cardHead.className = "Card-Header"
-        var title = document.createElement("h3")
-        title.innerText = x.Name
-        cardHead.appendChild(title)
-        card.appendChild(cardHead)
-
-        var cardBody = document.createElement("div")
-        cardBody.className = "Card-Content p-2"
-        var note = document.createElement('p')
-        note.innerText = x.Text
-        cardBody.appendChild(note)
-        card.appendChild(cardBody)
-
+        cardHead.className = "card-header"
+        var cardContent = document.createElement("div")
+        cardContent.className = "card-content p-2"
         var cardFoot = document.createElement("div")
-        cardBody.className = "Card-Footer"
-        card.appendChild(cardFoot)
+        cardFoot.className = "card-footer"
         
+        var CardTitle = document.createElement("h4")
+        CardTitle.innerText = x.Name
+        cardHead.appendChild(CardTitle)
+
+        var CardBody = document.createElement("p")
+        CardBody.innerText = x.Text
+        cardContent.appendChild(CardBody)
+
+        var likeButton = document.createElement("button")
+        var copyButton = document.createElement("button")
+        copyButton.className = "mif-copy"
+        copyButton.setAttribute("onclick",alert("this is what happens when you try to copy"))
+        likeButton.className = "mif-star-empty"
+        likeButton.setAttribute("onmouseover","this.className = 'mif-star-full'")
+        likeButton.setAttribute("onmouseout","this.className = 'mif-star-empty'")
+
+        cardFoot.appendChild(copyButton)
+        cardFoot.appendChild(likeButton)
+
+
+        card.appendChild(cardHead)
+        card.appendChild(cardContent)
+        card.appendChild(cardFoot)
+
         return card
     },
     Contents:[{
+        ID : 0,
         Name:"Generic Phone Call Note",
         Text:"Some "+this.Name+" Stuff Goes Here",
     },
     {
+        ID : 1,
         Name:"Generic Payment Note",
         Text:"Some "+this.Name+" Stuff Goes Here",
     },
     {
+        ID : 2,
         Name:"Generic Transfer Note",
         Text:"Some "+this.Name+" Stuff Goes Here",
     },
     {
+        ID : 3,
         Name:"Generic Medical Nescessity Adjustment",
         Text:"Some "+this.Name+" Stuff Goes Here",
     }]
