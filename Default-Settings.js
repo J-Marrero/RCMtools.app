@@ -204,3 +204,46 @@ let default_settings = [
         ]
     }
 ]
+
+let default_notes = {
+    Builder:function(x){
+        var card = document.createElement("div")
+        card.className = "Card"
+
+        var cardHead = document.createElement("div")
+        cardHead.className = "Card-Header"
+        var title = document.createElement("h3")
+        title.innerText = x.Name
+        cardHead.appendChild(title)
+        card.appendChild(cardHead)
+
+        var cardBody = document.createElement("div")
+        cardBody.className = "Card-Content p-2"
+        var note = document.createElement('p')
+        note.innerText = x.Text
+        cardBody.appendChild(note)
+        card.appendChild(cardBody)
+
+        var cardFoot = document.createElement("div")
+        cardBody.className = "Card-Footer"
+        card.appendChild(cardFoot)
+        
+        return card
+    },
+    Contents:[{
+        Name:"Generic Phone Call Note",
+        Text:"Some "+this.Name+" Stuff Goes Here",
+    },
+    {
+        Name:"Generic Payment Note",
+        Text:"Some "+this.Name+" Stuff Goes Here",
+    },
+    {
+        Name:"Generic Transfer Note",
+        Text:"Some "+this.Name+" Stuff Goes Here",
+    },
+    {
+        Name:"Generic Medical Nescessity Adjustment",
+        Text:"Some "+this.Name+" Stuff Goes Here",
+    }]
+}
