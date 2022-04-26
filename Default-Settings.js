@@ -227,7 +227,7 @@ let default_notes = {
         var likeButton = document.createElement("button")
         var copyButton = document.createElement("button")
         copyButton.className = "mif-copy"
-        copyButton.setAttribute("onclick",alert("this is what happens when you try to copy"))
+        copyButton.setAttribute("onclick","alert('this is what happens when you try to copy')")
         likeButton.className = "mif-star-empty"
         likeButton.setAttribute("onmouseover","this.className = 'mif-star-full'")
         likeButton.setAttribute("onmouseout","this.className = 'mif-star-empty'")
