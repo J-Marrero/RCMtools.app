@@ -12,6 +12,11 @@ window.addEventListener('load', (event) => {                    //adds an event 
     }                                                 
 });
 
+
+function lab(){
+    Metro.toast.create("Lab settings toggled",localStorage.setItem("Experimental",true), 2500, "success");
+}
+
 function setDefaultSettings(){
     var datetime = new Date().toString()
     for(var category of default_settings){
