@@ -11,17 +11,17 @@ var button = function(){
     control.setAttribute("onClick",this.action_function)
     if(this.Value == false){
         control.innerText = this.Name.replace("_"," ") + " - False"
-        control.className = "button secondary clear"
+        control.className = "button secondary clear bool"
     }else if(this.Value == true){
         control.innerText = this.Name.replace("_"," ") + " - True"
-        control.className = "button primary clear"  
+        control.className = "button primary clear bool"  
     }else if(typeof this.Value != 'boolean'){
         var control = document.createElement("button")
         control.setAttribute("id",this.Name)
         control.setAttribute("style","float:right")
         control.setAttribute("onClick",this.action_function)
         control.innerText = this.Name.replace("_"," ")
-        control.className = "button alert clear"
+        control.className = "button alert clear bool"
         control.id = this.Name
     }
     return control
@@ -43,15 +43,15 @@ function dialog(IsFullReset,minorSettingName){
 function toggle(el){
     var elemId = el.id
     console.log("Clicked")
-    if(el.className == "button primary clear"){               //starts as true
+    if(el.className == "button primary clear bool"){               //starts as true
         el.className = ""
-        el.className = "button secondary clear"
+        el.className = "button secondary clear bool"
         el.innerText = ""
         el.innerText = el.id.replace("_"," ")+" - False"
         localStorage.setItem(el.id,false)
-    } else if(el.className == "button secondary clear"){    //starts as false
+    } else if(el.className == "button secondary clear bool"){    //starts as false
         el.className = ""
-        el.className = "button primary clear"
+        el.className = "button primary clear bool"
         el.innerText = ""
         el.innerText = el.id.replace("_"," ")+" - True"
         localStorage.setItem(el.id,true)
@@ -145,7 +145,7 @@ let default_settings = [
                 },
                 {Name:"Reset_Settings",
                 Parent_Name: "General_Settings",
-                Value:"Reset",
+                Value: null,
                 Description:"This will reset all of your settings. Be careful when clicking it, this action cannot be undone",
                 Control_Node: button,
                 Enabled:true,
@@ -179,7 +179,7 @@ let default_settings = [
         Child_Settings: [
                {Name:"Reset_Notes",
                 Parent_Name: "Note_Settings",
-                Value:"Reset",
+                Value: null,
                 Description:"This setting deletes all of your locally saved notes.",
                 Control_Node: button,
                 Enabled: true,

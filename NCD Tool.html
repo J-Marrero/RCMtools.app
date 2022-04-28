@@ -12,10 +12,10 @@
 
 <body>
     <ul data-role="tabs" data-expand="true">
-        <li><a href="#Home">Home</a></li>
-        <li><a href="#NCDToolView">NCD Tool</a></li>
-        <li><a href="#Notes">Notes</a></li>
-        <li><a href="#Settings">Settings</a></li>
+        <li><a href="#Home" onClick="document.title='NCD Tool - '+this.innerText">Home</a></li>
+        <li><a href="#NCDToolView" onClick="document.title='NCD Tool - '+this.innerText">NCD Tool</a></li>
+        <li><a href="#Notes" onClick="document.title='NCD Tool - '+this.innerText">Notes</a></li>
+        <li><a href="#Settings" onClick="document.title='NCD Tool - '+this.innerText">Settings</a></li>
     </ul>
 
     <div id="Home">
@@ -61,8 +61,8 @@
     </div>
     <div id="Notes" class="invisible">
         <ul data-role="tabs" data-expand="true">
-            <li><a href="#View_Notes">View Notes</a></li>
-            <li><a href="#Add_Notes">Add Notes</a></li>
+            <li><a href="#View_Notes" onClick="document.title='NCD Tool - Notes - '+this.innerText">View Notes</a></li>
+            <li><a href="#Add_Notes" onClick="document.title='NCD Tool - Notes - '+this.innerText">Add Notes</a></li>
         </ul>
         <div id="View_Notes">
             <ul id="Notes_Zone">

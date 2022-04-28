@@ -1,6 +1,7 @@
 window.addEventListener('load', (event) => {                    //adds an event listener to write default settings if they have never been written                                                               
-    createSettings()
-    populate_Notes() //writes default Notes
+    createSettings() //'Writes' the settings page from Default-Settings.js
+    populate_Notes() // Writes default Notes
+    matchSettings()  // Matches settings UI to settings in localstorage
     localStorage.setItem("Last_Visit",new Date().toString())
     if(JSON.parse(localStorage.First_Run) == true){
         setDefaultSettings()
@@ -339,6 +340,7 @@ function createSettings(){
         var Settings_MenuItem = document.createElement("li")        //Create Top level menu registrations for all settings in the 'default-settings' object
         var Settings_MenuAnchor = document.createElement("a")       //Create Anchor Elements to jump to Major Category sections
         Settings_MenuAnchor.href = "#"+Major_Category.Name
+        Settings_MenuAnchor.setAttribute("onclick","document.title='NCD Tool - Settings - '+this.innerText")
         Settings_MenuItem.id = Major_Category.Name +"_Tab"
         Settings_MenuItem.className = Major_Category.Default_Tab_Class
         Settings_MenuAnchor.innerText = Major_Category.Name.replace("_"," ")
@@ -376,5 +378,25 @@ function populate_Notes(){
         var list_item = document.createElement("li")
         list_item.appendChild(default_notes.Builder(note))
         document.getElementById("Notes_Zone").appendChild(list_item)
+    }
+}
+
+function matchSettings(){
+    for(var node of document.getElementsByClassName("bool")){
+        if(node.innerText.search("True") > -1){
+            var visual = true 
+        } else if(node.innerText.search("False") > -1){
+            var visual = false
+        }
+        var nodearr = [node,node.innerText,visual,localStorage.getItem(node.id.toString())]
+        if(nodearr[2].toString() != null && nodearr[0].innerText.search("Reset") == -1 && nodearr[0].innerText != "User Notes" && nodearr[2].toString() != nodearr[3]){
+            console.log(nodearr[0])
+            toggle(nodearr[0])
+            verbose("Updated UI values for "+ node.id,'Warn','matchsettings')
+        } else {
+            verbose("No Updates Needed!",'log','matchsettings')
+    
+        }
+    
     }
 }
