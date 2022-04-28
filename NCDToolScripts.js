@@ -5,8 +5,11 @@ window.addEventListener('load', (event) => {                    //adds an event 
     if(JSON.parse(localStorage.First_Run) == true){
         setDefaultSettings()
     }
-
-    //whereAmI("file:///C:/Users/perso/Development/RCMtools.app/NCD%20Tool.html", "file:///C:/Users/perso/Development/RCMtools.app/Flask/NCD%20Tool.html")                                                                             // #14 run a function to check and see if the file is correctly located to ensure that the version that gets updated is the most current version and disallow the use of unsanctioned copies of the tool
+    if (localStorage.Experimental != 'true'){
+        whereAmI("file:///C:/Users/perso/Development/RCMtools.app/NCD%20Tool.html", "file:///C:/Users/perso/Development/RCMtools.app/Flask/NCD%20Tool.html")                        
+    } else {
+        verbose("Bypassed Location because this is an experimental version of this app","warn","Checking Where Am I?")
+    }                                                 
 });
 
 function setDefaultSettings(){
