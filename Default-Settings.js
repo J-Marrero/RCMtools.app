@@ -1,3 +1,63 @@
+var label = function(){
+    var control = document.createElement('p')
+    control.innerText = this.value
+    return control
+}
+
+var button = function(){
+    var control = document.createElement("button")
+    control.setAttribute("id",this.Name)
+    control.setAttribute("style","float:right")
+    control.setAttribute("onClick",this.action_function)
+    if(this.Value == false){
+        control.innerText = this.Name.replace("_"," ") + " - False"
+        control.className = "button secondary clear"
+    }else if(this.Value == true){
+        control.innerText = this.Name.replace("_"," ") + " - True"
+        control.className = "button primary clear"  
+    }else if(typeof this.Value != 'boolean'){
+        var control = document.createElement("button")
+        control.setAttribute("id",this.Name)
+        control.setAttribute("style","float:right")
+        control.setAttribute("onClick",this.action_function)
+        control.innerText = this.Name.replace("_"," ")
+        control.className = "button alert clear"
+        control.id = this.Name
+    }
+    return control
+}
+
+function dialog(IsFullReset,minorSettingName){
+    if(IsFullReset != true){
+        if(window.confirm("Are you sure you want to reset "+minorSettingName.replace("_"," ")+"?") == true){
+            localStorage.setItem(minorSettingName,null)
+            Metro.toast.create("Reset "+minorSettingName+" to Default!", null, null, "alert");
+        }
+    } else {
+        if(window.confirm("Are you sure you want to reset "+minorSettingName.replace("_"," ")+"?") == true){
+            setDefaultSettings()
+        }
+    }
+}
+
+function toggle(el){
+    var elemId = el.id
+    console.log("Clicked")
+    if(el.className == "button primary clear"){               //starts as true
+        el.className = ""
+        el.className = "button secondary clear"
+        el.innerText = ""
+        el.innerText = el.id.replace("_"," ")+" - False"
+        localStorage.setItem(el.id,false)
+    } else if(el.className == "button secondary clear"){    //starts as false
+        el.className = ""
+        el.className = "button primary clear"
+        el.innerText = ""
+        el.innerText = el.id.replace("_"," ")+" - True"
+        localStorage.setItem(el.id,true)
+    }
+}
+
 let default_settings = [
     {
         Name: "Statistics",
@@ -11,11 +71,7 @@ let default_settings = [
                 Parent_Name: "Statistics",
                 Value: null,
                 Description: "When was the last time that the settings were set to default.",
-                Control_Node: function(){
-                    var control = document.createElement('p')
-                    control.innerText = this.value
-                    return control
-                },
+                Control_Node: label,
                 Enabled: false,
                 action_function: null
             },
@@ -24,11 +80,7 @@ let default_settings = [
                 Parent_Name: "Statistics",
                 Value: false,
                 Description: "Is this the first time that this tool has been used?",
-                Control_Node: function(){
-                    var control = document.createElement('p')
-                    control.innerText = this.value
-                    return control
-                },
+                Control_Node: label,
                 Enabled: false,
                 action_function: null
             },
@@ -37,11 +89,7 @@ let default_settings = [
                 Parent_Name: "Statistics",
                 Value: null,
                 Description: "Last time this tool was visited",
-                Control_Node: function(){
-                    var control = document.createElement('p')
-                    control.innerText = this.value
-                    return control
-                },
+                Control_Node: label,
                 Enabled: false,
                 action_function: null
             }
@@ -52,43 +100,23 @@ let default_settings = [
         Default_Section_Display_Style: "display: none",
         Default_Tab_Class:"",
         Display: "none",
-        Enabled: false,
+        Enabled: true,
         Child_Settings: [
                {Name:"Experimental",
                 Parent_Name: "Background_Settings",
                 Value:false,
                 Description:"Is the tool showing experimental or nonstandard functionality?",
-                Control_Node: function(){
-                    var control = document.createElement("input")
-                    control.setAttribute("id",this.Parent_Name +'\/'+this.Name)
-                    control.setAttribute("type","checkbox")
-                    control.setAttribute("data-role","switch")
-                    control.setAttribute("data-material","true")
-                    control.setAttribute("data-off","off")
-                    control.setAttribute("style","float:right")
-                    control.setAttribute("onchange",this.action_function)
-                    return control
-                },
+                Control_Node: button,
                 Enabled:false,
-                action_function: null
+                action_function: "toggle(this)",
                 },
                 {Name:"Verbose",
                 Parent_Name: "Background_Settings",
                 Value:true,
                 Description:"Is the tool showing experimental or nonstandard functionality?",
-                Control_Node: function(){
-                    var control = document.createElement("input")
-                    control.setAttribute("id",this.Parent_Name +'\/'+this.Name)
-                    control.setAttribute("type","checkbox")
-                    control.setAttribute("data-role","switch")
-                    control.setAttribute("data-material","true")
-                    control.setAttribute("data-off","off")
-                    control.setAttribute("style","float:right")
-                    control.setAttribute("onchange",this.action_function)
-                    return control
-                },
+                Control_Node: button,
                 Enabled:false,
-                action_function: null
+                action_function: "toggle(this)",
                 }
             ]
     },
@@ -103,51 +131,25 @@ let default_settings = [
                Parent_Name: "General_Settings",
                 Value:false,
                 Description:"Dark mode shifts the color pallate into a less bright white and a darker easier on the eyes charcoal and black (Off by default)",
-                Control_Node: function(){
-                    var control = document.createElement("input")
-                    control.setAttribute("id",this.Parent_Name +'\/'+this.Name)
-                    control.setAttribute("type","checkbox")
-                    control.setAttribute("data-role","switch")
-                    control.setAttribute("data-material","true")
-                    control.setAttribute("data-off","off")
-                    control.setAttribute("style","float:right")
-                    control.setAttribute("onchange",this.action_function)
-                    return control
-                },
+                Control_Node: button,
+                action_function:"toggle(this)",
                 Enabled:true},
 
                 {Name:"Dyslexia_Font",
                 Parent_Name: "General_Settings",
                 Value:false,
                 Description:"This Setting Changes all of the fonts used to a more dyslexia friendly font (Off By Default)",
-                Control_Node: function(){
-                    var control = document.createElement("input")
-                    control.setAttribute("id",this.Parent_Name +'\/'+this.Name)
-                    control.setAttribute("type","checkbox")
-                    control.setAttribute("data-role","switch")
-                    control.setAttribute("data-material","true")
-                    control.setAttribute("data-off","off")
-                    control.setAttribute("style","float:right")
-                    control.setAttribute("onchange",this.action_function)
-                    return control
+                Control_Node: button,
+                action_function:"toggle(this)",
+                Enabled:true
                 },
-                Enabled:true},
-
                 {Name:"Reset_Settings",
                 Parent_Name: "General_Settings",
                 Value:"Reset",
                 Description:"This will reset all of your settings. Be careful when clicking it, this action cannot be undone",
-                Control_Node:function(){
-                    var control = document.createElement("button")
-                    control.setAttribute("id",this.Parent_Name +'\/'+this.Name)
-                    control.setAttribute("style","float:right")
-                    control.className = "button alert clear"
-                    control.setAttribute("onClick","setDefaultCookies('Flag')")
-                    control.innerText = this.Value
-                    return control
-                },
+                Control_Node: button,
                 Enabled:true,
-                action_function: "setDefaultCookies('flag')"
+                action_function: "dialog(true,'All_Settings')"
                 }
             ]
     },
@@ -162,19 +164,9 @@ let default_settings = [
                Parent_Name:"NCD_Settings",
                 Value:true,
                 Description:"This setting effects wether the tool automatically supresses duplicate procedure and diagnosis codes, if on, no duplicate codes will be processed. If set to off, all codes put into the tool will be processed. (On by default)",
-                Control_Node: function(){
-                    var control = document.createElement("input")
-                    control.setAttribute("id",this.Parent_Name +'\/'+this.Name)
-                    control.setAttribute("type","checkbox")
-                    control.setAttribute("data-role","switch")
-                    control.setAttribute("data-material","true")
-                    control.setAttribute("data-off","off")
-                    control.setAttribute("style","float:right")
-                    control.setAttribute("onchange",this.action_function)
-                    return control
-                },
+                Control_Node: button,
                 Enabled:true,
-                action_function: null
+                action_function: "toggle(this)"
             },
             ]
     },
@@ -189,17 +181,17 @@ let default_settings = [
                 Parent_Name: "Note_Settings",
                 Value:"Reset",
                 Description:"This setting deletes all of your locally saved notes.",
-                Control_Node:function(){
-                    var control = document.createElement("button")
-                    control.setAttribute("id",this.Parent_Name +'\/'+this.Name)
-                    control.setAttribute("style","float:right")
-                    control.className = "button alert clear"
-                    control.setAttribute("onClick","setDefaultCookies('Flag')")
-                    control.innerText = this.Value
-                    return control
-                },
+                Control_Node: button,
                 Enabled: true,
-                action_function: "resetNotes()"
+                action_function: "dialog(false,'User_Notes')"
+            },
+            { Name: "User_Notes", //todo figure out how to get from here to the user's notes (new Window?)
+              Parent_Name: "Note_Settings",
+              Value: null,
+              Description: "The Location where all of your locally saved notes live, limited amount of space here",
+              Enabled: false,
+              action_function: null,
+              Control_Node : button,
             }
         ]
     }
