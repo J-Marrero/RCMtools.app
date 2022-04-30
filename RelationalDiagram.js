@@ -60,7 +60,7 @@ var Header = line1
 
 var objectSchema = {invoiceLevelInfo : ['Invoice_Number', 'Service_Date', 'Responsible_Payer', 'Transactions'],
                     visitLevelInfo : ['Visit', 'Patient', 'Invoices'],
-                    transactionLevelInfo : ['Amount', 'Insurance', 'Self_Pay', 'Outstanding', 'Queue', 'Status', 'Bill_Area', 'Department', 'Description', 'Primary_Dx', 'Type', 'TX_From', 'Tx', 'Tx_To', 'ETR_ID']}
+                    transactionLevelInfo : ['Amount', 'Insurance', 'Self_Pay', 'Outstanding', 'Queue', 'Status', 'Bill_Area', 'Department', 'Description', 'Primary_Dx', 'Type', 'TX_From', 'Tx', 'TxTo', 'ETR_ID']}
 
 
 //function to create objects for each line
@@ -96,3 +96,59 @@ function getUnique(dataset,property){
         return F
 }
 
+//make the table smaller
+
+var abridgedObject = []
+for(var n of objectPlace){
+    var smaller = {}
+    smaller.Visit = n.Visit
+    smaller.Invoice_Number = n.Invoice_Number
+    smaller.Tx = n.Tx
+    abridgedObject.push(smaller)
+}
+console.log(abridgedObject)
+
+var abridgedObject = []
+for(var n of objectPlace){
+    var smaller = {}
+    smaller.Visit = n.Visit
+    smaller.Invoice_Number = n.Invoice_Number
+    smaller.Tx = n.Tx
+    abridgedObject.push(smaller)
+}
+
+console.log(abridgedObject)
+sortedArray = []
+var visits = []
+
+abridgedObject.forEach(element => visits.push(element.Visit))
+
+visits = Array.from(new Set(visits))
+console.log(visits)
+
+visits.forEach(element => sortedArray[element] = {Invoices:[]})
+console.log(sortedArray)
+
+for(var v of visits){
+    var invoices = []
+    for(var item of abridgedObject){
+            if(item.Visit == v){
+                invoices.push(item.Invoice_Number)
+            } else {
+                continue
+            }
+        }
+    Array.from(new Set(invoices)).forEach(element => sortedArray[v].Invoices.push({Invoice_Number:element, Transactions:[]}))
+}
+
+for(var v of visits){
+    var transactions = []
+    for(var item of abridgedObject){
+            if(item.Visit == v){
+                invoices.push(item.Invoice_Number)
+            } else {
+                continue
+            }
+        }
+    Array.from(new Set(invoices)).forEach(element => sortedArray[v].Invoices.push({Invoice_Number:element, Transactions:[]}))
+}
