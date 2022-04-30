@@ -114,6 +114,8 @@ for(var n of objectPlace){
     smaller.Visit = n.Visit
     smaller.Invoice_Number = n.Invoice_Number
     smaller.Tx = n.Tx
+    smaller.Tx_From = n.Tx_From
+    smaller.TxTo = n.TxTo
     abridgedObject.push(smaller)
 }
 
@@ -141,14 +143,29 @@ for(var v of visits){
     Array.from(new Set(invoices)).forEach(element => sortedArray[v].Invoices.push({Invoice_Number:element, Transactions:[]}))
 }
 
-for(var v of visits){
-    var transactions = []
-    for(var item of abridgedObject){
-            if(item.Visit == v){
-                invoices.push(item.Invoice_Number)
-            } else {
-                continue
+for(var v of sortedArray){
+    if(v == null){
+        continue
+    } else {
+        for(i of v.Invoices){
+            for(var item of abridgedObject){
+                if(item['Invoice_Number'] == i.Invoice_Number && sortedArray.indexOf(v)){
+                        i.Transactions.push({Tx:item.Tx,Tx_From:item.Tx_From, TxTo:item.TxTo})
+                }
             }
         }
-    Array.from(new Set(invoices)).forEach(element => sortedArray[v].Invoices.push({Invoice_Number:element, Transactions:[]}))
+    }
 }
+
+var output = "flowchart TD"
+
+for(var v of sortedArray){
+    if(v != null){
+    output += "\n\tsubgraph Visit "+sortedArray.indexOf(v)
+        for(var i of v.Invoices){
+            output += "\n\t" + sortedArray.indexOf(v) + "-" + v.Invoices.indexOf(i) + "{{ Invoice "+ i.Invoice_Number+" }}"
+        }
+    } else {continue}
+    output += "\nend"
+}
+console.log(output)
