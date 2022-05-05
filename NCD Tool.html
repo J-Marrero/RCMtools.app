@@ -6,7 +6,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="Images\Favicon\favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="Images\Favicon\favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="Images\Favicon\favicon-16x16.png">
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="\manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
@@ -32,6 +32,13 @@
      <div id="NCDToolView">
             <div id="leftPane" class="left column">
                 <p class="title">CPT and Diagnosis Code Input</p>
+                </br>
+                <select id="Rule_Selector" data-role="select" title="" multiple>
+                    <optgroup label="CMS Guidelines">
+                        <option value="Local_Coverage_Determinations" selected>LCD Policies</option>
+                        <option value="National_Coverage_Determinations" selected>NCD Policies</option>
+                    </optgroup>
+                </select>
                 </br>
                 <textarea rows="29"></textarea>
                 <button class="button primary"
@@ -73,9 +80,9 @@
             <li><a href="#Add_Notes" class="disabled" onClick="document.title='NCD Tool - Notes - '+this.innerText">Add Notes</a></li>
         </ul>
         <div id="View_Notes">
-            <ul id="Notes_Zone">
+            <div id="Notes_Zone" class="wrapper">
 
-            </ul>
+            </div>
             </div>
             <div id="Add_Notes">
             </div>

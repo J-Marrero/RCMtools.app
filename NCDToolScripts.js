@@ -379,7 +379,7 @@ function createSettings(){
 
 function populate_Notes(){
     for(var note of default_notes.Contents){
-        var list_item = document.createElement("li")
+        var list_item = document.createElement("div")
         list_item.setAttribute("style","position:relative;")
         list_item.appendChild(default_notes.Builder(note))
         document.getElementById("Notes_Zone").appendChild(list_item)

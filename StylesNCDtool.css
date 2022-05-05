@@ -14,11 +14,11 @@
   clear: both;
 }
 
-.title::after{
+p.title::after{
  float:right;
  content:url(Images/InfoDark.png);
 }
-.title:hover:after{
+p.title:hover:after{
  float:right;
  content:url(Images/InfoLight.png);
 }
@@ -116,7 +116,8 @@ div.playing{
   border-radius:7px;
   /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
 }
-ul#Notes_Zone{
-    columns: 4;
-    list-style-type: none;
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
 }
