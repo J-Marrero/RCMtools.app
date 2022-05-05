@@ -44,11 +44,11 @@ textarea {
 
 .delete::after{
  float:right;
- content:url(Images/CloseBlack.png);
+ content:url(./Images/CloseBlack.png);
 }
 .delete:hover:after{
  float:right;
- content:url(Images/CloseRed.png);
+ content:url(./Images/CloseRed.png);
 }
 
 .CPT{
