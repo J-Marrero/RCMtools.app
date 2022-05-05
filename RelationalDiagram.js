@@ -157,15 +157,19 @@ for(var v of sortedArray){
     }
 }
 
-var output = "flowchart TD"
+var output = "flowchart"
 
 for(var v of sortedArray){
     if(v != null){
     output += "\n\tsubgraph Visit "+sortedArray.indexOf(v)
         for(var i of v.Invoices){
-            output += "\n\t" + sortedArray.indexOf(v) + "-" + v.Invoices.indexOf(i) + "{{ Invoice "+ i.Invoice_Number+" }}"
+            output += "\n\t\t" + "subgraph Invoice "+ i.Invoice_Number
+            for(var tx of i.Transactions){
+                output += "\n\t\t\t"+sortedArray.indexOf(v)+"-"+v.Invoices.indexOf(i)+"-"+i.Transactions.indexOf(tx)+"[ Tx#"+ tx.Tx +"]"
+            }
+            output += "\n\t\t" + "end"
         }
     } else {continue}
-    output += "\nend"
+    output += "\n\tend"
 }
 console.log(output)
