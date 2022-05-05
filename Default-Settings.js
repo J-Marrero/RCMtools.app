@@ -67,6 +67,15 @@ let default_settings = [
         Enabled: false,
         Child_Settings: [
             {
+                Name: "Last_Access",
+                Parent_Name: "Statistics",
+                Value: null,
+                Description: "When was the last time that the page was accessed?.",
+                Control_Node: label,
+                Enabled: false,
+                action_function: null
+            },
+            {
                 Name: "Last_Time_Set",
                 Parent_Name: "Statistics",
                 Value: null,
