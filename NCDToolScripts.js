@@ -10,7 +10,11 @@ window.addEventListener('load', (event) => {                    //adds an event 
         whereAmI("file:///C:/Users/perso/Development/RCMtools.app/NCD%20Tool.html", "file:///C:/Users/perso/Development/RCMtools.app/Flask/NCD%20Tool.html")                        
     } else {
         verbose("Bypassed Location because this is an experimental version of this app","warn","Checking Where Am I?")
-    }                                                 
+    }
+    
+    if(isSameDay(localStorage.getItem("Last_Visit")) != true){
+        Metro.infobox.create("<h3>Welcome!</h3><p>This is a generic Message of the Day!</p>","default")   //add a "get message of the day here"
+    }
 });
 
 
@@ -376,6 +380,7 @@ function createSettings(){
 function populate_Notes(){
     for(var note of default_notes.Contents){
         var list_item = document.createElement("li")
+        list_item.setAttribute("style","position:relative;")
         list_item.appendChild(default_notes.Builder(note))
         document.getElementById("Notes_Zone").appendChild(list_item)
     }
@@ -399,4 +404,13 @@ function matchSettings(){
         }
     
     }
+}
+
+function isSameDay(dateInput){
+    var dateObj = new Date(dateInput)
+    var comparison_day = new Date()
+    if(comparison_day.toDateString() == dateObj.toDateString()){
+        return true
+    }
+        return false
 }

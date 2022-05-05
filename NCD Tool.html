@@ -1,6 +1,7 @@
 <html>
 
 <head>
+    <title>NCD Tool</title>
     <link rel="icon" type="image/png" sizes="192x192"  href="Images\Favicon\android-icon-192x192.png">
     <link rel="icon" type="image/png" sizes="32x32" href="Images\Favicon\favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="Images\Favicon\favicon-96x96.png">
@@ -26,7 +27,7 @@
     </ul>
 
     <div id="Home">
-        <p>Home Page - See the message of the Day!</p>
+        <p>Home Page</p>
     </div>
      <div id="NCDToolView">
             <div id="leftPane" class="left column">
@@ -69,7 +70,7 @@
     <div id="Notes" class="invisible">
         <ul data-role="tabs" data-expand="true">
             <li><a href="#View_Notes" onClick="document.title='NCD Tool - Notes - '+this.innerText">View Notes</a></li>
-            <li><a href="#Add_Notes" onClick="document.title='NCD Tool - Notes - '+this.innerText">Add Notes</a></li>
+            <li><a href="#Add_Notes" class="disabled" onClick="document.title='NCD Tool - Notes - '+this.innerText">Add Notes</a></li>
         </ul>
         <div id="View_Notes">
             <ul id="Notes_Zone">
