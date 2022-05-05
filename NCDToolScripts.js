@@ -414,3 +414,35 @@ function isSameDay(dateInput){
     }
         return false
 }
+
+function Dark_Mode(){ //#4 gpod first attempt but needs to be more dynamic and effect the generated code from some of these functions.
+    m4q()
+$("li").css({
+    color: "white",
+    background: "#121212"
+})
+$("div").css({
+    color: "white",
+    background: "#121212"
+})
+$("th").css({
+    color: "white",
+    background: "#121212"
+})
+$("table").css({
+    color: "white",
+    background: "#121212"
+})
+$("td").css({
+    color: "white",
+    background: "#121212"
+})
+$("div").css({
+    color: "white",
+    background: "#121212"
+})
+$("body").css({
+    color: "white",
+    background: "#121212"
+})
+}
