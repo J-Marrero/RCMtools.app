@@ -6,13 +6,14 @@
     <link rel="icon" type="image/png" sizes="32x32" href="Images\Favicon\favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="Images\Favicon\favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="Images\Favicon\favicon-16x16.png">
-    <link rel="manifest" href="\manifest.json">
+    <link rel="manifest" href=".\Images\Favicon\manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
     <script src="NCDToolScripts.js" type="text/javascript"></script>
     <script src=".\NCD Index.js" type="text/javascript"></script>
     <script src=".\Default-Settings.js" type="text/javascript"></script>
+    <script src=".\newNCDIndex.js" type="text/javascript"></script>
     <link rel="stylesheet" href="StylesNCDtool.css" type="text/css"></link>
     <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4.3.2/css/metro-all.min.css">
     <script src="https://cdn.metroui.org.ua/v4.3.2/js/metro.min.js"></script>
@@ -33,12 +34,7 @@
             <div id="leftPane" class="left column">
                 <p class="title">CPT and Diagnosis Code Input</p>
                 </br>
-                <select id="Rule_Selector" data-role="select" title="" multiple>
-                    <optgroup label="CMS Guidelines">
-                        <option value="Local_Coverage_Determinations" selected>LCD Policies</option>
-                        <option value="National_Coverage_Determinations" selected>NCD Policies</option>
-                    </optgroup>
-                </select>
+                <div id="optionAnchor"></div>
                 </br>
                 <textarea rows="29"></textarea>
                 <button class="button primary"

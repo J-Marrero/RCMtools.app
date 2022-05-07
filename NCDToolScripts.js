@@ -1,4 +1,6 @@
-window.addEventListener('load', (event) => {                    //adds an event listener to write default settings if they have never been written                                                               
+window.addEventListener('load', (event) => { 
+    //adds an event listener to write default settings if they have never been written                                                               
+    indexedList.createSelectList()
     createSettings() //'Writes' the settings page from Default-Settings.js
     populate_Notes() // Writes default Notes
     matchSettings()  // Matches settings UI to settings in localstorage
