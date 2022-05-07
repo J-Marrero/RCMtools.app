@@ -1,0 +1,1 @@
+location = "https://www.cms.gov/Medicare/Coverage/CoverageGenInfo/LabNCDsICD10"
