@@ -19,7 +19,6 @@ window.addEventListener('load', (event) => {
     }
 });
 
-
 function lab(){
     Metro.toast.create("Lab settings toggled",localStorage.setItem("Experimental",true), 2500, "success");
 }
@@ -377,7 +376,7 @@ function createSettings(){
         Settings_Section.appendChild(tabContent)
     }
     
-}
+};
 
 function populate_Notes(){
     for(var note of default_notes.Contents){
@@ -386,7 +385,7 @@ function populate_Notes(){
         list_item.appendChild(default_notes.Builder(note))
         document.getElementById("Notes_Zone").appendChild(list_item)
     }
-}
+};
 
 function matchSettings(){
     for(var node of document.getElementsByClassName("bool")){
@@ -406,7 +405,7 @@ function matchSettings(){
         }
     
     }
-}
+};
 
 function isSameDay(dateInput){
     var dateObj = new Date(dateInput)
@@ -415,4 +414,4 @@ function isSameDay(dateInput){
         return true
     }
         return false
-}
+};
